@@ -1,9 +1,21 @@
- let config = {
-    type: Phaser.CANVAS,
-    width: 640,
-    height: 480,
+let config = {
+    type: Phaser.AUTO,
+    scale: {
+        mode: Phaser.Scale.FIT,
+        parent: 'phaser-example',
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: window.innerWidth,
+        height: window.innerHeight
+    },
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 300 },
+            debug: false
+        }
+    },
     scene: [ Menu ]
-    }
+};
 
 let game = new Phaser.Game(config);
 
