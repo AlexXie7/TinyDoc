@@ -28,5 +28,7 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width/2, game.config.height/2,
         'Controls go here', menuConfig).setOrigin(0.5);
 
+        // for testing playscene for now
+        this.scene.start('playScene');
     }
 }
