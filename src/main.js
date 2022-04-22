@@ -1,23 +1,26 @@
-let config = {
+const config = {
     type: Phaser.AUTO,
-    scale: {
-        mode: Phaser.Scale.FIT,
-        parent: 'phaser-example',
-        autoCenter: Phaser.Scale.CENTER_BOTH,
-        width: window.innerWidth,
-        height: window.innerHeight
-    },
     physics: {
-        default: 'arcade',
-        arcade: {
-            gravity: { y: 300 },
-            debug: false
+        default: 'matter',
+        matter: {
+            enableSleeping: true,
+            gravity: { y: 1 },
+            debug: {
+                showBody: true,
+                showStaticBody: true
+            }
         }
     },
-    scene: [ Menu ]
-};
+    width: 640,
+    height: 480,
+    scene: [Menu, Play, UI],
+}
 
-let game = new Phaser.Game(config);
+const game = new Phaser.Game(config);
+
+
+let gameCenterY = config.height / 2;
+let gameRadius = 120;
 
 // reserve keyboard vars
 let keyF, keyR, keyLEFT, keyRIGHT;
