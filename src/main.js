@@ -11,8 +11,12 @@ const config = {
             }
         }
     },
-    width: 640,
-    height: 480,
+    scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+        width: window.innerWidth * window.devicePixelRatio,
+        height: window.innerHeight * window.devicePixelRatio
+    },
     scene: [Menu, Play, UI],
 }
 
