@@ -1,0 +1,3 @@
+class Parasite extends Enemy {
+    
+}
