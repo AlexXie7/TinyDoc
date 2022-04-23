@@ -7,7 +7,7 @@ const config = {
             gravity: { y: 1 },
             debug: {
                 showBody: true,
-                showStaticBody: true
+                showStaticBody: false
             }
         }
     },
@@ -17,7 +17,7 @@ const config = {
         width: window.innerWidth * window.devicePixelRatio,
         height: window.innerHeight * window.devicePixelRatio
     },
-    scene: [Menu, Play, UI],
+    scene: [Menu, Background, Play, UI],
 }
 
 const game = new Phaser.Game(config);
@@ -27,6 +27,9 @@ let gameCenterY = config.scale.height / 2;
 
 // width of the vein
 let gameRadius = 120;
+
+// platform cell size
+let gamePlatformSize = 128;
 
 // reserve keyboard vars
 let keyF, keyR, keyLEFT, keyRIGHT;

@@ -30,6 +30,8 @@ class UI extends Phaser.Scene {
         
 
         this.healthBar.scaleX = .25;
+
+        this.label = this.add.text(20, 20, 'player distance');
     }
 
     update() {
