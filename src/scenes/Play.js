@@ -16,7 +16,8 @@ class Play extends Phaser.Scene {
 
         this.load.image('flesh', './assets/flesh.png');
 
-        this.load.image('projectile', './assets/red.png');
+        this.load.image('projectile', './assets/medicine-particle.png');
+        this.load.image('medicineParticle', './assets/medicine-particle.png');
     }
 
     create() {

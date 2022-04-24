@@ -10,22 +10,12 @@ class Player {
         // setup sprites
         this.spriteOffsetY = -42;
         this.syringeOffsetY = 6;
-        this.sprite = scene.add.sprite(0, this.body.position.y + this.spriteOffsetY, 'player', 0).setOrigin(.5);
-        this.syringeSprite = scene.add.sprite(0, this.sprite.y + this.syringeOffsetY, 'syringe', 0).setOrigin(.5);
-        this.syringeHandsSprite = scene.add.sprite(0, this.syringeSprite.y, 'syringeHands', 0).setOrigin(.5);
+        this.sprite = scene.add.sprite(0, this.body.position.y + this.spriteOffsetY, 'player', 0).setOrigin(.5).setDepth(1);
+        this.syringeSprite = scene.add.sprite(0, this.sprite.y + this.syringeOffsetY, 'syringe', 0).setOrigin(.5).setDepth(1);
+        this.syringeHandsSprite = scene.add.sprite(0, this.syringeSprite.y, 'syringeHands', 0).setOrigin(.5).setDepth(1);
 
+        // setup jump key
         this.jumpKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-
-        // check if the body is touching the ground
-        // this.body.onCollideActiveCallback = (e) => {
-        //     if (e.bodyB.platformType === 'ground') {
-        //         this.body.touchingGround = true;
-        //     }
-        // }
-
-        // this.body.onCollideEndCallback = (e) => {
-        //     this.body.touchingGround = false;
-        // }
 
         // equipped medicine
         this.medicine = 0;
@@ -107,8 +97,16 @@ class Player {
         this.syringeSprite.setFrame(this.medicine * 2 + 1);
 
         // fire a projectile of medicine
+        let tint;
+        if (this.medicine === 0) {
+            tint = 0xFF6A00;
+        } else if (this.medicine === 1) {
+            tint = 0xB200FF;
+        } else if (this.medicine === 2) {
+            tint = 0x00FF21;
+        }
         const tan = Math.tan(this.syringeSprite.rotation);
-        const projectile = new Projectile(this.scene, this.syringeSprite.x, this.syringeSprite.y, 1, tan)
+        const projectile = new Projectile(this.scene, this.syringeSprite.x, this.syringeSprite.y, 1, tan, .08, tint);
         
         // create timer to reset syringe
         this.timer = setTimeout(() => {
