@@ -144,9 +144,19 @@ class Play extends Phaser.Scene {
         
     }
 
+    // convert screen X position to a world X position
+    toWorldX(screenX) {
+        return screenX - cameraOffsetX + this.player.body.position.x;
+    }
+
+    // gets the closest platform in the world based on world X position
+    getClosestPlatform(x) {
+        const index = Math.round((x - this.platforms[0].x) / gamePlatformSize);
+        return index >= 0 && index < this.platforms.length ? this.platforms[index] : undefined; 
+    }
+
     // gets the closest platform in the world based on screen X position
     getClosestPlatformFromScreen(screenX) {
-        const index = Math.floor(screenX / gamePlatformSize);
-        return index >= 0 && index < this.platforms.length ? this.platforms[index] : undefined; 
+        return this.getClosestPlatform(this.toWorldX(screenX));
     }
 }

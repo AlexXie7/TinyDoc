@@ -63,15 +63,6 @@ class Platform {
             return;
         }
 
-        // prevent player from falling through platform
-        if (Math.abs(this.scene.player.body.position.x - this.bottomPlatformBody.position.x) < gamePlatformSize / 2) {
-            const differenceY = this.scene.player.body.position.y + this.scene.player.body.circleRadius - (this.bottomPlatformBody.position.y - gamePlatformSize / 2);
-            if (differenceY > 3) {
-                // console.debug('fixing player position');
-                this.scene.matter.body.translate(this.scene.player.body, {x:0,y:-differenceY});
-            }
-        }
-
     }
 
     // destroys the platform, including its bodies and sprites
@@ -99,5 +90,15 @@ class Platform {
 
         this.fleshImage.x += x;
         this.fleshMaskShape.x += x;
+    }
+
+    getElevationFromPercent(p) {
+        p = Math.min(1, Math.max(0, p));
+        return p * (this.endY - this.startY) + this.bottomPlatformBody.position.y - gamePlatformSize / 2 - (this.endY - this.startY) / 2;
+    }
+
+    getElevationFromPositionX(x) {
+        const percent = (x - (this.x - gamePlatformSize / 2)) / gamePlatformSize;
+        return this.getElevationFromPercent(percent);
     }
 }
