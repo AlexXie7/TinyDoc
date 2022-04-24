@@ -1,5 +1,5 @@
 class Projectile {
-    constructor(scene, x, y, dx, dy, force = .07) {
+    constructor(scene, x, y, dx, dy, force = .07, tint = 0xFFFFFF) {
         this.scene = scene;
 
         // create matter body
@@ -11,7 +11,30 @@ class Projectile {
             this.destroy();
         }
 
+        this.tint = tint;
+
+        // create sprite
         this.sprite = scene.add.image(x, y, 'projectile');
+        this.sprite.setTint(this.tint);
+
+        // create particle emitter
+        this.particles = scene.add.particles('medicineParticle');
+        this.emitter = this.particles.createEmitter({
+            speed: 100,
+            lifespan: 500,
+            scale: {start: 1, end: 0},
+            rotate: {min: 0, max: 180},
+            tint: this.tint,
+            frequency: 80
+        });
+
+        this.emitter.onParticleDeath(() => {
+            if (this.emitter.getAliveParticleCount() === 0) {
+                this.particles.destroy();
+            }
+        });
+
+        this.emitter.start();
 
         // add to projectile list
         scene.projectiles.push(this);
@@ -25,11 +48,14 @@ class Projectile {
 
     update() {
         this.sprite.setPosition(this.body.position.x, this.body.position.y);
+        this.sprite.rotation += .1;
+        this.emitter.setPosition(this.body.position.x, this.body.position.y);
     }
 
     destroy() {
         this.scene.matter.world.remove(this.body);
         this.sprite.destroy();
+        this.emitter.stop();
         this.isDestroyed = true;
     }
 }
