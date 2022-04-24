@@ -6,9 +6,6 @@ class Platform {
         this.startY = startY;
         this.endY = endY;
 
-        this.isSlope = startY !== endY;
-        this.textureKey = startY === endY ? 'flat' : 'slope';
-
         const gamePlatformSizeHalf = gamePlatformSize / 2;
 
         const differenceY = endY - startY;
@@ -58,7 +55,7 @@ class Platform {
     update(time, delta) {
 
         // destroy platform when the platform is a certain distance behind the player
-        if (this.scene.player.body.position.x - this.bottomPlatformBody.position.x > 100 + gamePlatformSize) {
+        if (this.scene.player.body.position.x - this.bottomPlatformBody.position.x > cameraOffsetX + gamePlatformSize) {
             this.destroy();
         }
 
@@ -77,7 +74,7 @@ class Platform {
 
     }
 
-    // destroys the platform
+    // destroys the platform, including its bodies and sprites
     destroy() {
         
         this.scene.matter.world.remove(this.bottomPlatformBody);
@@ -89,11 +86,9 @@ class Platform {
         this.fleshMaskShape.destroy();
         
         this.isDestroyed = true;
-        // console.log('destroyed')
-
     }
 
-    // translates the platform on the x axis
+    // translates the platform on the x axis. used for shifting the game
     translateX(x) {
         
         this.x += x;

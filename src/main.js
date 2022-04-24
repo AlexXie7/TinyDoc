@@ -22,6 +22,9 @@ const config = {
 
 const game = new Phaser.Game(config);
 
+// camera offset from player
+let cameraOffsetX = 100;
+
 // Center Y value of the game
 let gameCenterY = config.scale.height / 2;
 
