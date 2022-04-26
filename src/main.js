@@ -31,6 +31,9 @@ let gameCenterY = config.scale.height / 2;
 // width of the vein
 let gameRadius = 120;
 
+// sharpness of the vein
+let gameCurviness = 50;
+
 // platform cell size
 let gamePlatformSize = 128;
 

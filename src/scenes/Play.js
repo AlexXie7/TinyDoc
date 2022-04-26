@@ -18,6 +18,8 @@ class Play extends Phaser.Scene {
 
         this.load.image('projectile', './assets/medicine-particle.png');
         this.load.image('medicineParticle', './assets/medicine-particle.png');
+
+        this.load.image('collectible', './assets/sugar.png');
     }
 
     create() {
@@ -34,6 +36,7 @@ class Play extends Phaser.Scene {
         // create arrays to store platforms and projectiles
         this.platforms = [];
         this.projectiles = [];
+        this.collectibles = [];
 
         // create player
         this.player = new Player(this);
@@ -50,6 +53,10 @@ class Play extends Phaser.Scene {
         this.medicine1key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
         this.medicine2key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
         this.medicine3key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+
+        this.nextCollectibleTime = 1000;
+        this.collectibleTimer = 0;
+        this.collectibleCount = 0; // number of collected collectibles, not number of total collectibles
     }   
 
 
@@ -89,6 +96,27 @@ class Play extends Phaser.Scene {
             }
         }
 
+        // update all collectibles every frame
+        for (let i = 0; i < this.collectibles.length; i++) {
+            const collectible = this.collectibles[i];
+            if (collectible.isDestroyed) {
+                this.collectibles.splice(0, 1);
+                i -= 1;
+            } else {
+                collectible.update(time, delta);
+            }
+        }
+        
+        if (this.collectibleTimer >= this.nextCollectibleTime) {
+            const collectibleHeight = Math.random() * gameRadius;
+            const collectibleBounceSize = 30;
+            const collectibleBounceSpeed = .5;
+            new Collectible(this, this.player.body.position.x + config.scale.width, collectibleHeight, collectibleBounceSize, collectibleBounceSpeed);
+            this.collectibleTimer -= this.nextCollectibleTime;
+            this.nextCollectibleTime = Math.random() * 2000 + 1000;
+        }
+        this.collectibleTimer += delta;
+
 
         // change medicine when specific keys are down
         if (this.medicine1key.isDown) {
@@ -111,6 +139,9 @@ class Play extends Phaser.Scene {
         }
         for (const projectile of this.projectiles) {
             this.matter.body.translate(projectile.body, {x: -this.gameShiftDistance, y:0});
+        }
+        for (const collectible of this.collectibles) {
+            collectible.sprite.x -= this.gameShiftDistance;
         }
 
         this.matter.body.translate(this.player.body, {x: -this.gameShiftDistance, y: 0});
@@ -137,7 +168,7 @@ class Play extends Phaser.Scene {
         // increments the read on the sin function for creating the platform curves
         this.sinProgress = this.sinProgress !== undefined ? this.sinProgress + Math.random() * .5 : 0;
 
-        endY = Math.sin(this.sinProgress) * 30; // adjusts the curviness ex: 30 is pretty smooth and light
+        endY = Math.sin(this.sinProgress) * gameCurviness; // adjusts the curviness ex: 30 is pretty smooth and light
         
         // creates the platform and adds it to the platform array
         const platform = new Platform(this, x, startY, endY);
@@ -148,6 +179,11 @@ class Play extends Phaser.Scene {
     // convert screen X position to a world X position
     toWorldX(screenX) {
         return screenX - cameraOffsetX + this.player.body.position.x;
+    }
+
+    // convert world X position to a screen X position
+    toScreenX(worldX) {
+        return worldX - (this.player.body.position.x - cameraOffsetX);
     }
 
     // gets the closest platform in the world based on world X position

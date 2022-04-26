@@ -17,8 +17,12 @@ class Player {
         // setup jump key
         this.jumpKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+        this.coolDownTime = 1000;
+
         // equipped medicine
         this.medicine = 0;
+
+        this.collectibleCount = 0;
     }
 
     update(time, delta) {
@@ -112,7 +116,7 @@ class Player {
         this.timer = setTimeout(() => {
             this.isFiring = false;
             this.syringeSprite.setFrame(this.medicine * 2);
-        }, 1000);
+        }, this.coolDownTime);
 
         this.isFiring = true;
     }

@@ -11,7 +11,7 @@ class Background extends Phaser.Scene {
     create() {
         this.playScene = this.scene.get('playScene');
 
-        this.add.tileSprite(0,0,config.scale.width, config.scale.height, 'background').setOrigin(0);
+        this.background = this.add.tileSprite(0,0,config.scale.width, config.scale.height, 'background').setOrigin(0);
 
 
         const particles = this.add.particles('bloodCell');
@@ -22,7 +22,7 @@ class Background extends Phaser.Scene {
             scale: {min: .5, max: 1},
             rotate: {min: 0, max: 180},
             maxVelocityY: 0,
-            frequency: 500
+            frequency: 300
         });
 
         this.emitter.onParticleEmit((p) => {
@@ -31,23 +31,61 @@ class Background extends Phaser.Scene {
             p.y = gameCenterY + offsetY;
             p.offsetY = offsetY;
             p.velocityX = -400 + Math.random() * 100;
+            p.defaultVelocityX = p.velocityX;
             p.spinDirection = Math.random() > .5 ? -1 : 1;
+            p.tint = 0xFFFFFF;
         });
 
         this.emitter.start();
+
+        this.bloodVelocityScale = 1;
+        this.targetBloodVelocityScale = 1;
+
+        this.targetTintColor = new Phaser.Display.Color(255, 255, 255);
+        this.tintColor = new Phaser.Display.Color(255, 255, 255);
+        
+        this.setTintFromHealth(1);
     }
 
-    update() {
+    update(time, delta) {
+
+        // ease in the tint color to the target color
+        this.tintColor.red -= (this.tintColor.red - this.targetTintColor.red) * .01;
+        this.tintColor.green -= (this.tintColor.green - this.targetTintColor.green) * .01;
+        this.tintColor.blue -= (this.tintColor.blue - this.targetTintColor.blue) * .01;
+
+        // set the background's tint
+        this.background.tint = this.tintColor.color;
+        
+        // ease the blood cell's velocity to the target velocity
+        this.bloodVelocityScale -= (this.bloodVelocityScale - this.targetBloodVelocityScale) * .05;
 
         if (this.playScene) {
             this.emitter.forEachAlive((p) => {
+
+                p.velocityX = p.defaultVelocityX * this.bloodVelocityScale;
+                p.tint = this.tintColor.color;
+
                 let closestPlatform = this.playScene.getClosestPlatformFromScreen(p.x);
                 if (closestPlatform) {
-                    const targetY =  closestPlatform.y + p.offsetY;
-                    p.y -= (p.y - targetY) * .01;
+                    const targetY =  closestPlatform.getElevationFromPositionX(this.playScene.toWorldX(p.x)) + p.offsetY - gameRadius;
+                    p.y = targetY;
                     p.angle += .3 * p.spinDirection;
                 }
             });
-        }   
+        }
+    }
+
+    setTintColor(hex) {
+        this.targetTintColor = Phaser.Display.Color.HexStringToColor(hex);
+    }
+
+    // health from 1 to 0 
+    setTintFromHealth(health) {
+        this.targetTintColor.setTo(health * 255, health * 255, 255);
+    }
+
+    setBloodVelocityScale(v) {
+        this.targetBloodVelocityScale = v;
     }
 };
