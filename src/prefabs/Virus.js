@@ -1,0 +1,3 @@
+class Virus extends Enemy {
+    
+}
