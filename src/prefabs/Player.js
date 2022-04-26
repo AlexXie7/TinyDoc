@@ -22,7 +22,7 @@ class Player {
         // equipped medicine
         this.medicine = 0;
 
-        this.collectibleCount = 0;
+        this.collectableCount = 0;
     }
 
     update(time, delta) {

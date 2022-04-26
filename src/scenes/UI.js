@@ -31,12 +31,20 @@ class UI extends Phaser.Scene {
         // health bar's scale matches the health's percentage
         this.healthBar.scaleX = 1;
 
-        // this.label = this.add.text(20, 20, 'player distance');
+        this.scoreText = this.add.text(20, 20, '0', {
+            fontSize: '64px',
+            stroke: '#000',
+            strokeThickness: 4
+        });
+        this.scoreText.defaultY = this.scoreText.y;
+        this.scoreLabel = this.add.text(20, 84, 'SCORE');
+        this.scoreShake = 0;
     }
 
-    update() {
+    update(time, delta) {
 
-        
+        this.scoreShake -= this.scoreShake * .1 * delta;
+        this.scoreText.y = this.scoreText.defaultY + Math.sin(time) * this.scoreShake;
     }
 
     // sets the health bar's scale based on percentage
@@ -48,4 +56,11 @@ class UI extends Phaser.Scene {
     setMedicine(i) {
         this.medicineSelect.x = 20 + (64 + 10) * i;
     }
+
+    // sets the score text
+    setScore(score, shakeAmount = 10) {
+        this.scoreText.text = score;
+        this.scoreShake = shakeAmount;
+    }
+
 }

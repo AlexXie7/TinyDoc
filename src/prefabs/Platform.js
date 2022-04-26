@@ -25,6 +25,8 @@ class Platform {
 
         // create flesh filler on the outsides
         this.fleshImage = scene.add.tileSprite(this.x, 0, gamePlatformSize, config.scale.height, 'flesh').setOrigin(.5,0);
+        this.fleshImage.tileScaleX = gamePlatformSize / 64;
+        this.fleshImage.tileScaleY = this.fleshImage.tileScaleX;
         const shape = new Phaser.GameObjects.Graphics(scene);
         shape.fillStyle(0xFFFFFF);
         shape.fillPoints([
@@ -39,17 +41,21 @@ class Platform {
 
 
         // create and move platform sprites / images
+        const surfaceOffsetY = 2;
+
         this.bottomSurfaceImage = scene.add.image(this.x, this.bottomPlatformBody.position.y -gamePlatformSizeHalf, 'surface').setOrigin(.5);
         this.bottomSurfaceImage.scale = gamePlatformSize / this.bottomSurfaceImage.width;
         this.bottomSurfaceImage.y += this.bottomSurfaceImage.height * this.bottomSurfaceImage.scale / 2;
+        this.bottomSurfaceImage.y -= surfaceOffsetY;
         this.bottomSurfaceImage.rotation = Math.asin(differenceY / gamePlatformSize);
 
         this.topSurfaceImage = scene.add.image(this.x, this.topPlatformBody.position.y + gamePlatformSizeHalf, 'surface').setOrigin(.5);
         this.topSurfaceImage.scale = gamePlatformSize / this.topSurfaceImage.width;
         this.topSurfaceImage.y -= this.topSurfaceImage.height * this.topSurfaceImage.scale / 2;
+        this.topSurfaceImage.y += surfaceOffsetY;
         this.topSurfaceImage.rotation = Math.asin(differenceY / gamePlatformSize);
+        this.topSurfaceImage.flipY = true;
 
-        this.bottomPlatformBody.platformType = 'ground';
     }
 
     update(time, delta) {
