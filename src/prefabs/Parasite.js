@@ -10,7 +10,7 @@ class Parasite extends Enemy {
         //this.create();
 
         this.max = this.scene.platforms[this.scene.platforms.length - 1].startY + gameRadius;
-        this.min = this.scene.platforms[this.scene.platforms.length - 1].startY;
+        this.min = this.scene.platforms[this.scene.platforms.length - 1].startY - gameRadius;
 
         this.rising = false;
 
