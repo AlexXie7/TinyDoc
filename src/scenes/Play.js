@@ -57,6 +57,9 @@ class Play extends Phaser.Scene {
         this.nextCollectibleTime = 1000;
         this.collectibleTimer = 0;
         this.collectibleCount = 0; // number of collected collectibles, not number of total collectibles
+
+
+        this.score = 0;
     }   
 
 
@@ -107,13 +110,23 @@ class Play extends Phaser.Scene {
             }
         }
         
+
+        // spawns a collectible at random intervals
         if (this.collectibleTimer >= this.nextCollectibleTime) {
             const collectibleHeight = Math.random() * gameRadius;
             const collectibleBounceSize = 30;
             const collectibleBounceSpeed = .5;
-            new Collectible(this, this.player.body.position.x + config.scale.width, collectibleHeight, collectibleBounceSize, collectibleBounceSpeed);
+            
+            // creates new collectible
+            const collectible = new Collectible(this, this.player.body.position.x + config.scale.width, collectibleHeight, collectibleBounceSize, collectibleBounceSpeed);
+            collectible.onCollectCallback = () => {
+                this.addScore(100);
+                this.player.collectibleCount += 1;
+                this.collectibleCount += 1;
+            }
+            
             this.collectibleTimer -= this.nextCollectibleTime;
-            this.nextCollectibleTime = Math.random() * 2000 + 1000;
+            this.nextCollectibleTime = Math.random() * 2000 + 1000; // sets the delay for the next collectible to spawn
         }
         this.collectibleTimer += delta;
 
@@ -195,5 +208,19 @@ class Play extends Phaser.Scene {
     // gets the closest platform in the world based on screen X position
     getClosestPlatformFromScreen(screenX) {
         return this.getClosestPlatform(this.toWorldX(screenX));
+    }
+
+
+    // score functions
+    // set current score
+    setScore(score) {
+        this.score = score;
+        this.uiScene.setScore(this.score);
+    }
+
+    // add to current score
+    addScore(amount) {
+        this.score += amount;
+        this.uiScene.setScore(this.score, amount * .1);
     }
 }
