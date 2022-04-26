@@ -19,7 +19,7 @@ class Play extends Phaser.Scene {
         this.load.image('projectile', './assets/medicine-particle.png');
         this.load.image('medicineParticle', './assets/medicine-particle.png');
 
-        this.load.image('collectible', './assets/sugar.png');
+        this.load.image('collectable', './assets/sugar.png');
     }
 
     create() {
@@ -36,7 +36,7 @@ class Play extends Phaser.Scene {
         // create arrays to store platforms and projectiles
         this.platforms = [];
         this.projectiles = [];
-        this.collectibles = [];
+        this.collectables = [];
 
         // create player
         this.player = new Player(this);
@@ -54,9 +54,9 @@ class Play extends Phaser.Scene {
         this.medicine2key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
         this.medicine3key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
 
-        this.nextCollectibleTime = 1000;
-        this.collectibleTimer = 0;
-        this.collectibleCount = 0; // number of collected collectibles, not number of total collectibles
+        this.nextcollectableTime = 1000;
+        this.collectableTimer = 0;
+        this.collectableCount = 0; // number of collected collectables, not number of total collectables
 
 
         this.score = 0;
@@ -99,36 +99,36 @@ class Play extends Phaser.Scene {
             }
         }
 
-        // update all collectibles every frame
-        for (let i = 0; i < this.collectibles.length; i++) {
-            const collectible = this.collectibles[i];
-            if (collectible.isDestroyed) {
-                this.collectibles.splice(0, 1);
+        // update all collectables every frame
+        for (let i = 0; i < this.collectables.length; i++) {
+            const collectable = this.collectables[i];
+            if (collectable.isDestroyed) {
+                this.collectables.splice(0, 1);
                 i -= 1;
             } else {
-                collectible.update(time, delta);
+                collectable.update(time, delta);
             }
         }
         
 
-        // spawns a collectible at random intervals
-        if (this.collectibleTimer >= this.nextCollectibleTime) {
-            const collectibleHeight = Math.random() * gameRadius;
-            const collectibleBounceSize = 30;
-            const collectibleBounceSpeed = .5;
+        // spawns a collectable at random intervals
+        if (this.collectableTimer >= this.nextcollectableTime) {
+            const collectableHeight = Math.random() * gameRadius;
+            const collectableBounceSize = 30;
+            const collectableBounceSpeed = .5;
             
-            // creates new collectible
-            const collectible = new Collectible(this, this.player.body.position.x + config.scale.width, collectibleHeight, collectibleBounceSize, collectibleBounceSpeed);
-            collectible.onCollectCallback = () => {
+            // creates new collectable
+            const collectable = new Collectable(this, this.player.body.position.x + config.scale.width, collectableHeight, collectableBounceSize, collectableBounceSpeed);
+            collectable.onCollectCallback = () => {
                 this.addScore(100);
-                this.player.collectibleCount += 1;
-                this.collectibleCount += 1;
+                this.player.collectableCount += 1;
+                this.collectableCount += 1;
             }
             
-            this.collectibleTimer -= this.nextCollectibleTime;
-            this.nextCollectibleTime = Math.random() * 2000 + 1000; // sets the delay for the next collectible to spawn
+            this.collectableTimer -= this.nextcollectableTime;
+            this.nextcollectableTime = Math.random() * 2000 + 1000; // sets the delay for the next collectable to spawn
         }
-        this.collectibleTimer += delta;
+        this.collectableTimer += delta;
 
 
         // change medicine when specific keys are down
@@ -153,8 +153,8 @@ class Play extends Phaser.Scene {
         for (const projectile of this.projectiles) {
             this.matter.body.translate(projectile.body, {x: -this.gameShiftDistance, y:0});
         }
-        for (const collectible of this.collectibles) {
-            collectible.sprite.x -= this.gameShiftDistance;
+        for (const collectable of this.collectables) {
+            collectable.sprite.x -= this.gameShiftDistance;
         }
 
         this.matter.body.translate(this.player.body, {x: -this.gameShiftDistance, y: 0});

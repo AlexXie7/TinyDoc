@@ -1,4 +1,4 @@
-class Collectible {
+class Collectable {
     constructor(scene, x, height, bounceSize = 10, bounceSpeed = 1) {
         this.scene = scene;
         this.height = height;
@@ -7,8 +7,8 @@ class Collectible {
 
         this.onCollectCallback;
         
-        this.sprite = scene.add.image(x, 0, 'collectible').setOrigin(.5);
-        scene.collectibles.push(this);
+        this.sprite = scene.add.image(x, 0, 'collectable').setOrigin(.5);
+        scene.collectables.push(this);
     }
 
     update(time, delta) {
