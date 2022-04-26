@@ -13,4 +13,5 @@ class Enemy extends Phaser.GameObjects.Sprite {
             this.destroy();
         }
     }
+    
 }

@@ -10,6 +10,9 @@ class Play extends Phaser.Scene {
 
         this.load.image('surface', './assets/surface.png');
 
+        //temp enemy
+        this.load.image('red', './assets/red.png');
+
 
     }
 
@@ -29,7 +32,8 @@ class Play extends Phaser.Scene {
             this.createPlatform();
         }
 
-
+        this.paras = new Parasite(this, 500, gameCenterY, 'red', 0, 30, 0);
+        this.temptimer = 0;
 
 
     }   
@@ -38,6 +42,7 @@ class Play extends Phaser.Scene {
     update(time, delta) {
 
         this.player.update(time, delta);
+
 
         for (let i = 0; i < this.platforms.length; i++) {
             const platform = this.platforms[i];
@@ -55,6 +60,18 @@ class Play extends Phaser.Scene {
 
         if (this.player.body.position.x > game.config.width * 4) {
             this.shiftGame();
+        }
+
+
+        // temp enemy generation
+        this.temptimer += 1;
+        if(this.temptimer / 300 == 1){
+            this.paras = new Parasite(this, 1500, gameCenterY, 'red', 0, 30, 0);
+            // this.temp.setScale(1)
+        }
+        this.paras.update();
+        if(this.paras.x < this.player.x){
+            this.paras.destroy();
         }
     }
 
