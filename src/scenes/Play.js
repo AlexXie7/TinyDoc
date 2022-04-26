@@ -19,7 +19,11 @@ class Play extends Phaser.Scene {
         this.load.image('projectile', './assets/medicine-particle.png');
         this.load.image('medicineParticle', './assets/medicine-particle.png');
 
+
         this.load.image('collectable', './assets/sugar.png');
+
+        this.load.image('EnemyGreen', './assets/EnemyGreen.png');
+        this.load.image('EnemyOrange', './assets/EnemyOrange.png');
     }
 
     create() {
