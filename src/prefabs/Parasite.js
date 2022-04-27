@@ -2,17 +2,24 @@
 
 class Parasite extends Enemy {
     
-    constructor(scene, x, y, texture, frame, pointValue, index) {
+    constructor(scene, x, y, texture, frame, pointValue, index = 0) {
         super(scene, x, y, texture, frame, pointValue);
         this.next = null;
         this.index = index;
-        console.log('hello');
+        //console.log('hello');
         //this.create();
 
-        this.max = this.scene.platforms[this.scene.platforms.length - 1].startY + gameRadius;
-        this.min = this.scene.platforms[this.scene.platforms.length - 1].startY - gameRadius;
+        // this.max = this.scene.platforms[this.scene.platforms.length - 1].getElevationFromPositionX(this.x);
+        // this.min = this.max - gameRadius;
+
+        // console.log(this.max);
+        // console.log(this.min);
 
         this.rising = false;
+        this.moveSpeed = 0;
+
+        this.bounceSize = gameRadius;
+        this.bounceSpeed = .7;
 
 
         //this.maxMin = gameCenterY + gameRadius + Math.sin(this.scene.sinProgress) * 15;
@@ -47,31 +54,49 @@ class Parasite extends Enemy {
 
     }
     
-    update() {
-        this.maxMin = gameCenterY + gameRadius + Math.sin(this.scene.sinProgress) * 15;
-        //this.x -= 0.5;
+    update(time, delta) {
+        // this.maxMin = gameCenterY + gameRadius + Math.sin(this.scene.sinProgress) * 15;
+        // this.x ;
         // this.y = this.maxMin - this.index * 14;
+        // console.log(this.scene);
 
-        if(this.rising) {
-            console.log('rising');
-            console.log(this.y);
-            console.log('max');
-            console.log(this.max);
-            this.y -= 14;
-        } else {
-            console.log('falling');
-            console.log(this.y);
-            console.log('min');
-            console.log(this.min);
-            this.y += 14;
+        // sets the height of the collectible
+        const closestPlatform = this.scene.getClosestPlatform(this.x);
+        if (closestPlatform) {
+            this.y = closestPlatform.getElevationFromPositionX(this.x) - (Math.sin(time * .01 * this.bounceSpeed) * .5 + 1) * this.bounceSize;
         }
 
-        if(this.y >= this.min) {
-            this.rising = true;
+        // this.x -= delta * .1;        
+        
+        if (this.scene.toScreenX(this.x) < -32) {
+            this.destroy();
         }
-        if (this.y <= this.max){
-            this.rising = false;
-        }
+
+
+
+
+        // if(this.rising) {
+        //     // console.log('rising');
+        //     // console.log(this.y);
+        //     // console.log('max');
+        //     // console.log(this.max);
+        //     this.y -= 10;
+        // } else {
+        // //     // console.log('falling');
+        // //     // console.log(this.y);
+        // //     // console.log('min');
+        // //     // console.log(this.min);
+        // //     this.y += 1;
+        // }
+
+        // if(this.y >= this.min) {
+        //     this.rising = true;
+        //     // console.log('rising');
+        // }
+        // if (this.y <= this.max){
+        //     this.rising = false;
+        //     // console.log('falling');
+        // }
 
         // temp = head.next;
         // temp.x = head.x - 14;

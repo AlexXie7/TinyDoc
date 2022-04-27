@@ -4,13 +4,21 @@ class Enemy extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);
         this.points = pointValue;
         this.moveSpeed = 3;
+        this.isDestroyed = false;
     }
 
-    update() {
-        this.x -= this.moveSpeed;
+    update(time, delta) {
+        //this.x -= this.moveSpeed;
 
         if(this.x <= 0 - this.width) {
             this.destroy();
         }
     }
+
+    destroy(){
+        this.scene.addScore(this.pointValue);
+        this.isDestroyed = true;
+        super.destroy();
+    }
+
 }

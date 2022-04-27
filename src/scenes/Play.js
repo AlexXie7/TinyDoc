@@ -62,8 +62,12 @@ class Play extends Phaser.Scene {
         this.collectableTimer = 0;
         this.collectableCount = 0; // number of collected collectables, not number of total collectables
 
-
         this.score = 0;
+
+        // testing
+        this.enemy = new Parasite(this, this.player.body.position.x + config.scale.width, Math.random() * gameRadius, 'EnemyGreen', 0, 30)
+        this.enemy.setScale(.1);
+
     }   
 
 
@@ -135,6 +139,13 @@ class Play extends Phaser.Scene {
         this.collectableTimer += delta;
 
 
+        // Enemy update
+        if(!this.enemy.isDestroyed){
+            console.log(this.enemy.isDestroyed)
+            this.enemy.update(time, delta);
+        }
+
+
         // change medicine when specific keys are down
         if (this.medicine1key.isDown) {
             this.uiScene.setMedicine(0); // changes the medicine selector in the UI
@@ -160,6 +171,9 @@ class Play extends Phaser.Scene {
         for (const collectable of this.collectables) {
             collectable.sprite.x -= this.gameShiftDistance;
         }
+
+        //enemy shift
+        this.enemy.x -= this.gameShiftDistance;
 
         this.matter.body.translate(this.player.body, {x: -this.gameShiftDistance, y: 0});
     }
