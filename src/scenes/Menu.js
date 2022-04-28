@@ -5,6 +5,8 @@ class Menu extends Phaser.Scene {
 
     preload(){
         //audio goes here
+        this.load.audio('sfx_select', './assets/IDKNoise.wav');
+
     }
 
     create(){
