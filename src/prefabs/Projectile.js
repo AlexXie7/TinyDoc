@@ -7,6 +7,8 @@ class Projectile {
         this.body.collisionFilter.category = 0x100;
         this.body.collisionFilter.mask = 0x01;
 
+        this.body.isProjectile = true;
+
         this.body.onCollideCallback = (e) => {
             this.destroy();
         }
