@@ -148,7 +148,7 @@ class Play extends Phaser.Scene {
 
 
         // Enemy update
-        // update all collectables every frame
+        // update all enemies every frame
         for (let i = 0; i < this.enemies.length; i++) {
             const enemy = this.enemies[i];
             if (enemy.isDestroyed) {
@@ -276,12 +276,19 @@ class Play extends Phaser.Scene {
 
     spawnEnemy(){
         let enemyType = Math.random();
-        if(enemyType <= .33){
+        let numParas = 5; //index starts at zero
+
+        if(enemyType <= 0){
             this.enemies.push(new Bacteria(this, this.player.body.position.x + config.scale.width, gameCenterY, 'EnemyOrange', 0, 30));
-        } else if(enemyType <= .66) {
+        } else if(enemyType <= 0) {
             this.enemies.push(new Virus(this, this.player.body.position.x + config.scale.width, gameCenterY, 'EnemyGreen', 0, 30));
         } else {
-            this.enemies.push(new Parasite(this, this.player.body.position.x + config.scale.width, Math.random() * gameRadius, 'EnemyGreen', 0, 30))
+            console.log("Spawning paras")
+            let prev = null;
+            for(let i = 0; i < numParas; i++){
+                prev = new Parasite(this, this.player.body.position.x + config.scale.width + (32*i), gameCenterY, 'EnemyGreen', 0, 30, i, prev);
+                this.enemies.push(prev);
+            }
         }
         //this.enemies[this.enemies.length-1].setScale(.1);
     }
