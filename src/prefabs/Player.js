@@ -17,7 +17,7 @@ class Player {
         // setup jump key
         this.jumpKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        this.coolDownTime = 1000;
+        this.coolDownTime = 100;
 
         // equipped medicine
         this.medicine = 0;

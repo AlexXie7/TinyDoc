@@ -299,6 +299,6 @@ class Play extends Phaser.Scene {
         } else {
             this.enemies.push(new Parasite(this, this.player.body.position.x + config.scale.width, Math.random() * gameRadius, 'EnemyGreen', 0, 30))
         }
-        this.enemies[this.enemies.length-1].setScale(.1);
+        //this.enemies[this.enemies.length-1].setScale(.1);
     }
 }

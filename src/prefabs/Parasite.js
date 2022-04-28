@@ -10,6 +10,9 @@ class Parasite extends Enemy {
         this.bounceSize = gameRadius;
         this.bounceSpeed = .7;
 
+        this.setScale(.1);
+        console.log(this.body)
+
     }
     
     update(time, delta) {
