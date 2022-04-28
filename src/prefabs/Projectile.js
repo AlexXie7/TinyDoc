@@ -1,5 +1,5 @@
 class Projectile {
-    constructor(scene, x, y, dx, dy, force = .07, tint = 0xFFFFFF) {
+    constructor(scene, x, y, dx, dy, force = .07, tint = 0xFFFFFF, medicine = 0) {
         this.scene = scene;
 
         // create matter body
@@ -7,6 +7,9 @@ class Projectile {
         this.body.collisionFilter.category = 0x100;
         this.body.collisionFilter.mask = 0x01;
 
+        this.body.projectile = this;
+        this.body.medicine = medicine;
+        this.medicine = medicine;
         this.body.isProjectile = true;
 
         this.body.onCollideCallback = (e) => {

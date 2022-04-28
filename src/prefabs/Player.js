@@ -17,7 +17,9 @@ class Player {
         // setup jump key
         this.jumpKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        this.coolDownTime = 100;
+        // medicine cooldown
+        this.cooldownTime = 1000;
+        this.cooldownTimer = 0;
 
         // equipped medicine
         this.medicine = 0;
@@ -81,6 +83,16 @@ class Player {
             this.syringeHandsSprite.flipX = false;
             this.syringeHandsSprite.flipY = false;
         }
+
+        // update cooldown timer
+        if (this.cooldownTimer <= 0) {
+            this.isFiring = false;
+            this.syringeSprite.setFrame(this.medicine * 2);
+            this.cooldownTimer += this.cooldownTime;
+        }
+        if (this.isFiring) {
+            this.cooldownTimer -= delta;
+        }
     }
 
     get position() {
@@ -110,13 +122,14 @@ class Player {
             tint = 0x00FF21;
         }
         const tan = Math.tan(this.syringeSprite.rotation);
-        const projectile = new Projectile(this.scene, this.syringeSprite.x, this.syringeSprite.y, 1, tan, .08, tint);
-        
-        // create timer to reset syringe
-        this.timer = setTimeout(() => {
-            this.isFiring = false;
-            this.syringeSprite.setFrame(this.medicine * 2);
-        }, this.coolDownTime);
+        const projectile = new Projectile(
+            this.scene,
+            this.syringeSprite.x, this.syringeSprite.y, // the initial position of the projectile
+            1, tan, // the initial direction of the projectile
+            .08, // the force / speed of the projectile on fire
+            tint, // the color of the medicine in hex
+            this.medicine // the medicine index the player has currently
+        );
 
         this.isFiring = true;
     }
