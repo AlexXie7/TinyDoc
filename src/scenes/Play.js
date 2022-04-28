@@ -59,7 +59,7 @@ class Play extends Phaser.Scene {
         this.medicine2key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
         this.medicine3key = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
 
-        this.nextcollectableTime = 1000;
+        this.nextCollectableTime = 1000;
         this.collectableTimer = 0;
         this.collectableCount = 0; // number of collected collectables, not number of total collectables
 
@@ -103,12 +103,6 @@ class Play extends Phaser.Scene {
         // update all projectiles every frame
         for (let i = 0; i < this.projectiles.length; i++) {
             const projectile = this.projectiles[i];
-
-            // projectile collision with enemy
-            // if(this.checkCollision(projectile, this.enemy) && !this.enemy.isDestroyed) {
-            //     this.enemy.cured();
-            // }
-
             if (projectile.isDestroyed) {
                 this.projectiles.splice(0, 1);
                 i -= 1;
@@ -130,21 +124,10 @@ class Play extends Phaser.Scene {
         
 
         // spawns a collectable at random intervals
-        if (this.collectableTimer >= this.nextcollectableTime) {
-            const collectableHeight = Math.random() * gameRadius;
-            const collectableBounceSize = 30;
-            const collectableBounceSpeed = .5;
-            
-            // creates new collectable
-            const collectable = new Collectable(this, this.player.body.position.x + config.scale.width, collectableHeight, collectableBounceSize, collectableBounceSpeed);
-            collectable.onCollectCallback = () => {
-                this.addScore(100);
-                this.player.collectableCount += 1;
-                this.collectableCount += 1;
-            }
-            
-            this.collectableTimer -= this.nextcollectableTime;
-            this.nextcollectableTime = Math.random() * 2000 + 1000; // sets the delay for the next collectable to spawn
+        if (this.collectableTimer >= this.nextCollectableTime) {
+            this.spawnCollectable();            
+            this.collectableTimer -= this.nextCollectableTime;
+            this.nextCollectableTime = Math.random() * 2000 + 1000; // sets the delay for the next collectable to spawn
         }
         this.collectableTimer += delta;
 
@@ -156,11 +139,6 @@ class Play extends Phaser.Scene {
             
             // creates new enemy
             this.spawnEnemy();
-            // enemy.onCollectCallback = () => {
-            //     this.addScore(100);
-            //     this.player.enemyCount += 1;
-            //     this.enemyCount += 1;
-            // }
             
             this.enemyTimer -= this.nextEnemyTime;
             this.nextEnemyTime = Math.random() * 2000 + 6000; // sets the delay for the next enemy to spawn
@@ -280,15 +258,21 @@ class Play extends Phaser.Scene {
         this.uiScene.setScore(this.score, amount * .1);
     }
 
-    // checkCollision(projectile, enemy){
-    //     if (projectile.sprite.x < enemy.x + enemy.width && 
-    //         projectile.sprite.x + projectile.sprite.width > enemy.x && 
-    //         projectile.sprite.y < enemy.y + enemy.height &&
-    //         projectile.sprite.height + projectile.sprite.y > enemy. y ) {
-    //         return true;
-    //     }
-    //     else return false;
-    // }
+    // spawns a collectable to the scene
+    spawnCollectable() {
+        const collectableHeight = Math.random() * gameRadius;
+        const collectableBounceSize = 30;
+        const collectableBounceSpeed = .5;
+        
+        // creates new collectable
+        const collectable = new Collectable(this, this.player.body.position.x + config.scale.width, collectableHeight, collectableBounceSize, collectableBounceSpeed);
+        collectable.onCollectCallback = () => {
+            this.addScore(100);
+            this.player.collectableCount += 1;
+            this.collectableCount += 1;
+        }
+        return collectable;
+    }
 
     spawnEnemy(){
         let enemyType = Math.random();
