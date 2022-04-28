@@ -41,6 +41,7 @@ class Play extends Phaser.Scene {
         this.platforms = [];
         this.projectiles = [];
         this.collectables = [];
+        this.enemies = [];
 
         // create player
         this.player = new Player(this);
@@ -62,11 +63,14 @@ class Play extends Phaser.Scene {
         this.collectableTimer = 0;
         this.collectableCount = 0; // number of collected collectables, not number of total collectables
 
+        this.nextEnemyTime = 1500;
+        this.enemyTimer = 0;
+
         this.score = 0;
 
         // testing
-        this.enemy = new Parasite(this, this.player.body.position.x + config.scale.width, Math.random() * gameRadius, 'EnemyGreen', 0, 30)
-        this.enemy.setScale(.1);
+
+
 
     }   
 
@@ -99,6 +103,12 @@ class Play extends Phaser.Scene {
         // update all projectiles every frame
         for (let i = 0; i < this.projectiles.length; i++) {
             const projectile = this.projectiles[i];
+
+            // projectile collision with enemy
+            // if(this.checkCollision(projectile, this.enemy) && !this.enemy.isDestroyed) {
+            //     this.enemy.cured();
+            // }
+
             if (projectile.isDestroyed) {
                 this.projectiles.splice(0, 1);
                 i -= 1;
@@ -138,11 +148,37 @@ class Play extends Phaser.Scene {
         }
         this.collectableTimer += delta;
 
+        // spawns enemies at random intervals
+        if (this.enemyTimer >= this.nextEnemyTime) {
+            const enemyHeight = Math.random() * gameRadius;
+            const enemyBounceSize = 30;
+            const enemyBounceSpeed = .5;
+            
+            // creates new enemy
+            this.spawnEnemy();
+            // enemy.onCollectCallback = () => {
+            //     this.addScore(100);
+            //     this.player.enemyCount += 1;
+            //     this.enemyCount += 1;
+            // }
+            
+            this.enemyTimer -= this.nextEnemyTime;
+            this.nextEnemyTime = Math.random() * 2000 + 6000; // sets the delay for the next enemy to spawn
+        }
+        this.enemyTimer += delta;
+
+
 
         // Enemy update
-        if(!this.enemy.isDestroyed){
-            console.log(this.enemy.isDestroyed)
-            this.enemy.update(time, delta);
+        // update all collectables every frame
+        for (let i = 0; i < this.enemies.length; i++) {
+            const enemy = this.enemies[i];
+            if (enemy.isDestroyed) {
+                this.enemies.splice(0, 1);
+                i -= 1;
+            } else {
+                enemy.update(time, delta);
+            }
         }
 
 
@@ -173,7 +209,9 @@ class Play extends Phaser.Scene {
         }
 
         //enemy shift
-        this.enemy.x -= this.gameShiftDistance;
+        for (const enemy of this.enemies) {
+            enemy.x -= this.gameShiftDistance;
+        }
 
         this.matter.body.translate(this.player.body, {x: -this.gameShiftDistance, y: 0});
     }
@@ -240,5 +278,27 @@ class Play extends Phaser.Scene {
     addScore(amount) {
         this.score += amount;
         this.uiScene.setScore(this.score, amount * .1);
+    }
+
+    // checkCollision(projectile, enemy){
+    //     if (projectile.sprite.x < enemy.x + enemy.width && 
+    //         projectile.sprite.x + projectile.sprite.width > enemy.x && 
+    //         projectile.sprite.y < enemy.y + enemy.height &&
+    //         projectile.sprite.height + projectile.sprite.y > enemy. y ) {
+    //         return true;
+    //     }
+    //     else return false;
+    // }
+
+    spawnEnemy(){
+        let enemyType = Math.random();
+        if(enemyType <= .33){
+            this.enemies.push(new Bacteria(this, this.player.body.position.x + config.scale.width, gameCenterY, 'EnemyOrange', 0, 30));
+        } else if(enemyType <= .66) {
+            this.enemies.push(new Virus(this, this.player.body.position.x + config.scale.width, gameCenterY, 'EnemyGreen', 0, 30));
+        } else {
+            this.enemies.push(new Parasite(this, this.player.body.position.x + config.scale.width, Math.random() * gameRadius, 'EnemyGreen', 0, 30))
+        }
+        this.enemies[this.enemies.length-1].setScale(.1);
     }
 }

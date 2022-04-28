@@ -5,6 +5,13 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.points = pointValue;
         this.moveSpeed = 3;
         this.isDestroyed = false;
+        this.body = scene.matter.add.circle(x, y, 32, {ignoreGravity : true});
+
+        this.body.onCollideCallback = (e) => {
+            //console.log(e);
+            if(e.bodyB.isProjectile)
+                this.cured();
+        }
     }
 
     update(time, delta) {
@@ -16,9 +23,16 @@ class Enemy extends Phaser.GameObjects.Sprite {
     }
 
     destroy(){
-        this.scene.addScore(this.pointValue);
         this.isDestroyed = true;
+        this.scene.matter.world.remove(this.body);
+        this.body = undefined;
         super.destroy();
+    }
+
+    cured(){
+        //console.log(this.scene);
+        this.scene.addScore(this.points);
+        this.destroy();
     }
 
 }
