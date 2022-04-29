@@ -24,6 +24,10 @@ class Play extends Phaser.Scene {
         //enemy png
         this.load.image('EnemyGreen', './assets/EnemyGreen.png');
         this.load.image('EnemyOrange', './assets/EnemyOrange.png');
+        this.load.image('EnemyPurpleHead', './assets/EnemyPurpleHead.png');
+        this.load.image('EnemyPurpleBody', './assets/EnemyPurpleBody.png');
+        this.load.image('EnemyPurpleTail', './assets/EnemyPurpleTail.png');
+
 
 
     }
