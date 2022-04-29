@@ -3,6 +3,8 @@ class Virus extends Enemy {
         super(scene, x, y, texture, frame, pointValue);
         this.scale = scale;
         this.setScale(scale);
+        console.log(this.body);
+        this.body.circleRadius = scale * 750;
     }    
 
 

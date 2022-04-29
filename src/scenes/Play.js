@@ -280,7 +280,7 @@ class Play extends Phaser.Scene {
 
         if(enemyType <= 0){
             this.enemies.push(new Bacteria(this, this.player.body.position.x + config.scale.width, gameCenterY, 'EnemyOrange', 0, 30));
-        } else if(enemyType <= 1) {
+        } else if(enemyType <= 0) {
             this.enemies.push(new Virus(this, this.player.body.position.x + config.scale.width, gameCenterY, 'EnemyGreen', 0, 30));
         } else {
             console.log("Spawning paras")
