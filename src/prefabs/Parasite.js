@@ -14,6 +14,12 @@ class Parasite extends Enemy {
         this.setScale(.1);
         // console.log(this.body)
 
+        this.body.onCollideCallback = (e) => {
+            console.log(e);
+            if(e.bodyB.isProjectile && e.bodyB.medicine == 1)
+                this.cured();
+        }
+
     }
     
     update(time, delta) {
