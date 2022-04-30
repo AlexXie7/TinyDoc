@@ -8,7 +8,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.body = scene.matter.add.circle(x, y, 32, {ignoreGravity : true});
 
         this.body.onCollideCallback = (e) => {
-            //console.log(e);
+            console.log(e);
             if(e.bodyB.isProjectile)
                 this.cured();
         }
