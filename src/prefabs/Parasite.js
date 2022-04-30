@@ -11,7 +11,7 @@ class Parasite extends Enemy {
         this.bounceSize = gameRadius;
         this.bounceSpeed = .7;
 
-        this.setScale(.1);
+        this.setScale(.3);
         // console.log(this.body)
 
         this.body.onCollideCallback = (e) => {

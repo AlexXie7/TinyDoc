@@ -283,14 +283,19 @@ class Play extends Phaser.Scene {
 
         if(enemyType <= 0){
             this.enemies.push(new Bacteria(this, this.player.body.position.x + config.scale.width, gameCenterY, 'EnemyOrange', 0, 30));
-        } else if(enemyType <= 1) {
+        } else if(enemyType <= 0) {
             this.enemies.push(new Virus(this, this.player.body.position.x + config.scale.width, gameCenterY, 'EnemyGreen', 0, 30));
         } else {
             console.log("Spawning paras")
             let prev = null;
             for(let i = 0; i < numParas; i++){
-                
-                prev = new Parasite(this, this.player.body.position.x + config.scale.width + (32*i), gameCenterY, 'EnemyGreen', 0, 30, i, prev);
+                if(i == 0){
+                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i), gameCenterY, 'EnemyPurpleTail', 0, 30, i, prev);
+                } else if(i == numParas - 1) {
+                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i), gameCenterY, 'EnemyPurpleHead', 0, 30, i, prev);
+                } else {
+                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i), gameCenterY, 'EnemyPurpleBody', 0, 30, i, prev);
+                }
                 this.enemies.push(prev);
             }
         }
