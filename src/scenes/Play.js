@@ -286,6 +286,7 @@ class Play extends Phaser.Scene {
             console.log("Spawning paras")
             let prev = null;
             for(let i = 0; i < numParas; i++){
+                
                 prev = new Parasite(this, this.player.body.position.x + config.scale.width + (32*i), gameCenterY, 'EnemyGreen', 0, 30, i, prev);
                 this.enemies.push(prev);
             }
