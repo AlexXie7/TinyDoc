@@ -8,5 +8,12 @@ class Bacteria extends Enemy {
             if(e.bodyB.isProjectile && e.bodyB.medicine == 0 && this.isCured == false)
                 this.cured();
         }
+
+
+    }
+
+    update(time, delta) {
+        this.x -= this.moveSpeed;
+        super.update(time, delta);
     }
 }

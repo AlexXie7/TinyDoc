@@ -58,7 +58,12 @@ class Parasite extends Enemy {
             this.scene.matter.body.setPosition(this.body, {x: this.x, y:this.y});
         }
 
-        
+        if(this.next !== null){
+            this.rotation = Math.atan2(this.next.y - this.y, this.next.x - this.x); 
+        } else {
+            this.rotation = 0;
+        }
+
         if (this.scene.toScreenX(this.x) < -32) {
             this.destroy();
         }
