@@ -169,12 +169,31 @@ class Play extends Phaser.Scene {
         // update all enemies every frame
         for (let i = 0; i < this.enemies.length; i++) {
             const enemy = this.enemies[i];
-            if (enemy.isDestroyed) {
-                this.enemies.splice(0, 1);
-                i -= 1;
+            // console.log(enemy);
+            // console.log(typeof(enemy));
+            // console.log(enemy.constructor.name);
+
+            //if the enemy is a parasite
+            if(enemy.constructor.name === 'Array'){
+                for (let j = 0; j < enemy.length; j++){
+                    const parasite = enemy[j];
+                    if(parasite.next === parasite.prev && parasite.isDestroyed){
+                        this.enemies.splice(0,1);
+                        i -= 1;
+                        break;
+                    } else if(!parasite.isDestroyed) {
+                        parasite.update(time, delta);
+                    }
+                }
+            
             } else {
-                enemy.update(time, delta);
-            }
+                if (enemy.isDestroyed) {
+                    this.enemies.splice(0, 1);
+                    i -= 1;
+                } else {
+                    enemy.update(time, delta);
+                }
+            }   
         }
 
 
@@ -221,7 +240,14 @@ class Play extends Phaser.Scene {
 
         //enemy shift
         for (const enemy of this.enemies) {
-            enemy.x -= this.gameShiftDistance;
+            if(enemy.constructor.name === 'Array'){
+                for (let j = 0; j < enemy.length; j++){
+                    const parasite = enemy[j];
+                    parasite.x -= this.gameShiftDistance;
+                }
+            } else {
+                enemy.x -= this.gameShiftDistance;   
+            }
         }
 
         this.matter.body.translate(this.player.body, {x: -this.gameShiftDistance, y: 0});
@@ -327,10 +353,18 @@ class Play extends Phaser.Scene {
         } else {
             console.log("Spawning paras")
             let prev = null;
+            let paras = [];
             for(let i = 0; i < numParas; i++){
-                prev = new Parasite(this, this.player.body.position.x + config.scale.width + (32*i), gameCenterY, 'EnemyGreen', 0, 30, i, prev);
-                this.enemies.push(prev);
+                if(i == 0){
+                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i), gameCenterY, 'EnemyPurpleTail', 0, 30, i, prev);
+                } else if(i == numParas - 1) {
+                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i), gameCenterY, 'EnemyPurpleHead', 0, 30, i, prev);
+                } else {
+                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i), gameCenterY, 'EnemyPurpleBody', 0, 30, i, prev);
+                }
+                paras.push(prev);
             }
+            this.enemies.push(paras);
         }
         //this.enemies[this.enemies.length-1].setScale(.1);
     }
