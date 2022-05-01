@@ -39,7 +39,7 @@ class Parasite extends Enemy {
                     }
                 }
 
-                console.log(this);
+                // console.log(this);
                 this.cured();
             }
         }

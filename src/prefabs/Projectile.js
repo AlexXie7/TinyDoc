@@ -49,6 +49,15 @@ class Projectile {
         forceVector.normalize();
         forceVector.scale(force);
         scene.matter.body.applyForce(this.body, this.body.position, {x: forceVector.x, y: forceVector.y});
+
+        //selfdeletes after 5 sec
+        this.clock = this.scene.time.delayedCall(5000, () => { 
+            if(!this.isDestroyed){
+                console.log(this); 
+                this.destroy(); 
+            }
+
+        }, null, this);
     }
 
     update() {
