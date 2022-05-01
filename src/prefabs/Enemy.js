@@ -6,10 +6,11 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.moveSpeed = 3;
         this.isDestroyed = false;
         this.body = scene.matter.add.circle(x, y, 32, {ignoreGravity : true});
+        this.isCured = false;
 
         this.body.onCollideCallback = (e) => {
             //console.log(e);
-            if(e.bodyB.isProjectile)
+            if(e.bodyB.isProjectile && !this.isCured) 
                 this.cured();
         }
     }
@@ -38,7 +39,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         super.destroy();
     }
 
-    cured(){
+    cured() {
         this.isCured = true;
         this.scene.sound.play('enemyKilled');
         this.scene.addScore(this.points);

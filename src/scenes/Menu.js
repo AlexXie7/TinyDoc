@@ -27,5 +27,14 @@ class Menu extends Phaser.Scene {
         'TinyDoc', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2,
         'Controls go here', menuConfig).setOrigin(0.5);
+
+        // start key, change to what u would like
+        this.startKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    }
+
+    update() {
+        if (Phaser.Input.Keyboard.JustDown(this.startKey)) {
+            this.scene.start('playScene');
+        }
     }
 }

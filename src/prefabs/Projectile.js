@@ -58,6 +58,7 @@ class Projectile {
     }
 
     destroy() {
+        this.emitter.explode(10);
         this.scene.matter.world.remove(this.body);
         this.sprite.destroy();
         this.emitter.stop();
