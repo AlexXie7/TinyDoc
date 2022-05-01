@@ -4,8 +4,6 @@ class Menu extends Phaser.Scene {
     }
 
     preload(){
-        //audio goes here
-        this.load.audio('sfx', 'sfxTemp./assets/.wav');
 
     }
 
@@ -29,8 +27,5 @@ class Menu extends Phaser.Scene {
         'TinyDoc', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2,
         'Controls go here', menuConfig).setOrigin(0.5);
-
-        // for testing playscene for now
-        this.scene.start('playScene');
     }
 }

@@ -27,6 +27,15 @@ class Play extends Phaser.Scene {
         this.load.image('EnemyPurpleHead', './assets/EnemyPurpleHead.png');
         this.load.image('EnemyPurpleBody', './assets/EnemyPurpleBody.png');
         this.load.image('EnemyPurpleTail', './assets/EnemyPurpleTail.png');
+
+
+        // load sounds
+        this.load.audio('playerRun', './assets/foot steps.wav');
+        this.load.audio('playerShoot', './assets/squirting.wav');
+        this.load.audio('playerSwitchMedicine', './assets/switch medicine.wav');
+        this.load.audio('collectable', './assets/fat collecting.wav');
+        this.load.audio('enemyKilled', './assets/Enemy killed.wav');
+        this.load.audio('damaged', './assets/score loss health.wav');
     }
 
     create() {
@@ -70,15 +79,18 @@ class Play extends Phaser.Scene {
         this.enemyTimer = 0;
 
         this.score = 0;
+        this.damage = 0;
 
-        // testing
-
-
-
+        this.gameOver = false;
     }   
 
 
     update(time, delta) {
+
+        if (this.gameOver) {
+            // this.scene.pause();
+            return;
+        }
 
         // checks if the player is a distance from the origin, and shift the entire game back
         if (this.player.body.position.x > this.gameShiftDistance + 128) {
@@ -164,16 +176,31 @@ class Play extends Phaser.Scene {
 
 
         // change medicine when specific keys are down
-        if (this.medicine1key.isDown) {
+        if (Phaser.Input.Keyboard.JustDown(this.medicine1key)) {
+            this.sound.play('playerSwitchMedicine', {volume: .5});
             this.uiScene.setMedicine(0); // changes the medicine selector in the UI
             this.player.setMedicine(0); // changes the medicine in the player's syringe
-        } else if (this.medicine2key.isDown) {
+        } else if (Phaser.Input.Keyboard.JustDown(this.medicine2key)) {
+            this.sound.play('playerSwitchMedicine', {volume: .5});
             this.uiScene.setMedicine(1);
             this.player.setMedicine(1);
-        } else if (this.medicine3key.isDown) {
+        } else if (Phaser.Input.Keyboard.JustDown(this.medicine3key)) {
+            this.sound.play('playerSwitchMedicine', {volume: .5});
             this.uiScene.setMedicine(2);
             this.player.setMedicine(2);
         }
+
+
+        // lose condition
+        // pause scene and update ui
+        if (this.damage >= 100) {
+            this.gameOver = true;
+            this.sound.stopAll();
+            
+            this.backgroundScene.scene.pause();
+            this.uiScene.showResults();
+        }
+
     }
 
     // shifts the entire game back, including platforms, players, enemies, items, etc
@@ -258,7 +285,14 @@ class Play extends Phaser.Scene {
     // add to current score
     addScore(amount) {
         this.score += amount;
-        this.uiScene.setScore(this.score, amount * .1);
+        this.uiScene.setScore(this.score);
+    }
+
+    // add damage
+    addDamage(amount) {
+        this.damage += amount;
+        this.uiScene.setHealth(1 - (this.damage / 100));
+        this.sound.play('damaged');
     }
 
     // spawns a collectable to the scene

@@ -25,6 +25,10 @@ class Player {
         this.medicine = 0;
 
         this.collectableCount = 0;
+
+        // this.scene.sound.play('playerRun', {volume: .5, loop: true});
+        this.runSound = this.scene.sound.add('playerRun', {volume: .5, loop: true})
+        this.runSound.play();
     }
 
     update(time, delta) {
@@ -45,10 +49,13 @@ class Player {
             if (this.body.velocity.x < 8) {
                 this.scene.matter.body.applyForce(this.body, this.body.position, {x: .0035, y: 0});
             }
+            this.runSound.resume();
+        } else {
+            this.runSound.pause();
         }
 
         // jump if touching the ground
-        if (this.jumpKey.isDown) {
+        if (Phaser.Input.Keyboard.JustDown(this.jumpKey)) {
             if (this.touchingGround) {
                 this.scene.matter.body.setVelocity(this.body, {x: this.body.velocity.x, y: 0});
                 this.scene.matter.body.applyForce(this.body, this.body.position, {x: .005, y: -.02});
@@ -111,6 +118,7 @@ class Player {
         }
 
         this.syringeSprite.setFrame(this.medicine * 2 + 1);
+        this.scene.sound.play('playerShoot', {volume: .5});
 
         // fire a projectile of medicine
         let tint;
