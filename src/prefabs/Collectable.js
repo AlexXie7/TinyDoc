@@ -23,6 +23,7 @@ class Collectable {
 
             // if distance is close enough, it will call the callback if defined, and destroy
             if (this.onCollectCallback) {
+                this.scene.sound.play('collectable', {volume: .7});
                 this.onCollectCallback();
             }
 

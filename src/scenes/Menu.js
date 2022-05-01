@@ -4,8 +4,6 @@ class Menu extends Phaser.Scene {
     }
 
     preload(){
-        //audio goes here
-        this.load.audio('sfx', 'sfxTemp./assets/.wav');
 
     }
 
@@ -30,7 +28,13 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width/2, game.config.height/2,
         'Controls go here', menuConfig).setOrigin(0.5);
 
-        // for testing playscene for now
-        this.scene.start('playScene');
+        // start key, change to what u would like
+        this.startKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    }
+
+    update() {
+        if (Phaser.Input.Keyboard.JustDown(this.startKey)) {
+            this.scene.start('playScene');
+        }
     }
 }
