@@ -12,12 +12,12 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
     update(time, delta) {
         //this.x -= this.moveSpeed;
+        this.scene.matter.body.setPosition(this.body, {x: this.x, y:this.y});
 
         if(this.x <= this.scene.player.sprite.x - this.width) {
             console.log('destroying sprite');
             this.destroy();
         }
-        this.scene.matter.body.setPosition(this.body, {x: this.x, y:this.y});
     }
 
     destroy(){
