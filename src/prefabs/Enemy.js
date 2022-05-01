@@ -24,14 +24,23 @@ class Enemy extends Phaser.GameObjects.Sprite {
     }
 
     destroy(){
-        this.isDestroyed = true;
-        this.scene.matter.world.remove(this.body);
-        this.body = undefined;
+
+        if (this.scene) { // fixes issue where sprite is destroyed on scene start / restart
+            if (!this.isCured) {
+                this.scene.addDamage(this.points * .25);
+            }
+    
+            this.isDestroyed = true;
+            this.scene.matter.world.remove(this.body);
+            this.body = undefined;
+        }
+        
         super.destroy();
     }
 
     cured(){
-        //console.log(this.scene);
+        this.isCured = true;
+        this.scene.sound.play('enemyKilled');
         this.scene.addScore(this.points);
         this.destroy();
     }
