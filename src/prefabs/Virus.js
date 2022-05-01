@@ -1,12 +1,10 @@
 class Virus extends Enemy {
-    constructor(scene, x, y, texture, frame, pointValue, scale = .3){
+    constructor(scene, x, y, texture, frame, pointValue, scale = 1){
         super(scene, x, y, texture, frame, pointValue);
         this.scale = scale;
         this.setScale(scale);
-        // console.log(this.body);
-        // this.body.circleRadius = scale * 750;
         this.scene.matter.world.remove(this.body);
-        this.body = scene.matter.add.circle(x, y, scale * 450, {ignoreGravity : true});
+        this.body = scene.matter.add.circle(x, y, scale * 150, {ignoreGravity : true});
         this.body.onCollideCallback = (e) => {
             // console.log(e);
             if(e.bodyB.isProjectile && e.bodyB.medicine == 2)
