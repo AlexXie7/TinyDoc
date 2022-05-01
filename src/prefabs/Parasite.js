@@ -22,7 +22,7 @@ class Parasite extends Enemy {
 
         this.body.onCollideCallback = (e) => {
             // console.log(e);
-            if(e.bodyB.isProjectile && e.bodyB.medicine == 1){
+            if(e.bodyB.isProjectile && e.bodyB.medicine == 1 && this.isCured == false){
                 if(this.prev !== null){
                     if(this.next !== null){
                         this.prev.next = this.next;
