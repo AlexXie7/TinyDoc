@@ -4,7 +4,7 @@ class Bacteria extends Enemy {
         this.setScale(.1);
 
         this.body.onCollideCallback = (e) => {
-            console.log(e);
+            // console.log(e);
             if(e.bodyB.isProjectile && e.bodyB.medicine == 0)
                 this.cured();
         }
