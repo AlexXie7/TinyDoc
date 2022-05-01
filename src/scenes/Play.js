@@ -22,7 +22,10 @@ class Play extends Phaser.Scene {
 
         this.load.image('collectable', './assets/sugar.png');
 
-        this.load.image('EnemyGreen', './assets/EnemyGreen.png');
+        this.load.spritesheet('EnemyGreen', './assets/greenEnemy1SpriteSheet.png', {
+            frameWidth: 240, frameHeight: 223,
+            startFrame: 0, endFrame: 5
+        });
         this.load.image('EnemyOrange', './assets/EnemyOrange.png');
         this.load.image('EnemyPurpleHead', './assets/EnemyPurpleHead.png');
         this.load.image('EnemyPurpleBody', './assets/EnemyPurpleBody.png');
