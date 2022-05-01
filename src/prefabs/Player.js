@@ -24,7 +24,13 @@ class Player {
         // equipped medicine
         this.medicine = 0;
 
+        // amount of collectables collected
         this.collectableCount = 0;
+        this.targetCollectableCount = 3;
+        this.level = 0;
+        this.jumpForce = .02;
+        this.projectileForce = .08;
+        this.projectileCount = 1;
 
         // this.scene.sound.play('playerRun', {volume: .5, loop: true});
         this.runSound = this.scene.sound.add('playerRun', {volume: .5, loop: true})
@@ -44,7 +50,7 @@ class Player {
             this.touchingGround = true;
         }
 
-        // move forward if touching hte ground
+        // move forward if touching the ground
         if (this.touchingGround) {
             if (this.body.velocity.x < 8) {
                 this.scene.matter.body.applyForce(this.body, this.body.position, {x: .0035, y: 0});
@@ -58,7 +64,7 @@ class Player {
         if (Phaser.Input.Keyboard.JustDown(this.jumpKey)) {
             if (this.touchingGround) {
                 this.scene.matter.body.setVelocity(this.body, {x: this.body.velocity.x, y: 0});
-                this.scene.matter.body.applyForce(this.body, this.body.position, {x: .005, y: -.02});
+                this.scene.matter.body.applyForce(this.body, this.body.position, {x: .005, y: -this.jumpForce});
                 this.touchingGround = false;
             }
         }
@@ -129,16 +135,55 @@ class Player {
         } else if (this.medicine === 2) {
             tint = 0x00FF21;
         }
-        const tan = Math.tan(this.syringeSprite.rotation);
-        const projectile = new Projectile(
-            this.scene,
-            this.syringeSprite.x, this.syringeSprite.y, // the initial position of the projectile
-            1, tan, // the initial direction of the projectile
-            .08, // the force / speed of the projectile on fire
-            tint, // the color of the medicine in hex
-            this.medicine // the medicine index the player has currently
-        );
+        
+        for (let i = -1; i < this.projectileCount - 1; i++) {
+            const tan = Math.tan(this.syringeSprite.rotation + i * .1);
+            const projectile = new Projectile(
+                this.scene,
+                this.syringeSprite.x, this.syringeSprite.y, // the initial position of the projectile
+                1, tan, // the initial direction of the projectile
+                this.projectileForce, // the force / speed of the projectile on fire
+                tint, // the color of the medicine in hex
+                this.medicine // the medicine index the player has currently
+            );
+        }
 
         this.isFiring = true;
+    }
+
+    // called by collectable when the player collects it
+    onCollect() {
+        this.collectableCount += 1;
+        this.scene.addDamage(-1);
+        if (this.collectableCount >= this.targetCollectableCount) {
+            console.log('level up');
+            this.levelUp();
+            this.scene.uiScene.levelUp(this.level);
+            this.scene.addDamage(-10);
+            this.collectableCount = 0;
+            this.targetCollectableCount += 1;
+        }
+    }
+
+    // upgrades player properties on level up
+    levelUp() {
+        this.level += 1;
+        if (this.level < 5) {
+            this.cooldownTime -= 50;
+            this.jumpForce += .001;
+            this.projectileForce += .001;
+        } else if (this.level < 6) {
+            this.projectileCount = 2;
+        } else if (this.level < 10) {
+            this.cooldownTime -= 20;
+            this.jumpForce += .001;
+            this.projectileForce += .001;
+        } else if (this.level < 11) {
+            this.projectileCount = 3;
+        } else {
+            this.cooldownTime = Math.max(this.cooldownTime - 10, 100);
+            this.projectileForce += .001;
+            this.jumpForce += .001;
+        }
     }
 }

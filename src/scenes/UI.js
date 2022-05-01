@@ -42,6 +42,16 @@ class UI extends Phaser.Scene {
         this.scoreLabel = this.add.text(20, 84, 'SCORE');
         this.scoreShake = 0;
 
+        // level up text
+        this.levelUpText = this.add.text(game.config.width / 2, game.config.height / 2, 'LEVEL UP', {
+            fontSize: '80px',
+            stroke: '#000',
+            strokeThickness: 8,
+            color: '#FF0'
+        }).setOrigin(.5);
+        this.levelUpText.setVisible(false);
+        this.levelUpText.defaultY = this.levelUpText.y;
+
         this.restartKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         this.menuKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
     }
@@ -53,6 +63,15 @@ class UI extends Phaser.Scene {
 
         this.healthBarShake -= this.healthBarShake * .1 * delta;
         this.healthBar.y = this.healthBar.defaultY + Math.sin(time) * this.healthBarShake;
+
+        if (this.levelUpText.progress < 1) {
+            this.levelUpText.progress += delta * .001;
+            this.levelUpText.y = this.levelUpText.defaultY - this.levelUpText.progress * 100;
+            this.levelUpText.setAlpha(1 - this.levelUpText.progress);
+            if (this.levelUpText.progress >= 1) {
+                this.levelUpText.setVisible(false);
+            }
+        }
 
         if (this.playScene.gameOver && Phaser.Input.Keyboard.JustDown(this.restartKey)) {
             this.scene.start('playScene');
@@ -81,7 +100,16 @@ class UI extends Phaser.Scene {
         this.scoreShake = shakeAmount;
     }
 
+    // show level up notification
+    levelUp(level) {
+        this.levelUpText.text = 'LEVEL UP - ' + level.toString();
+        this.levelUpText.progress = 0;
+        this.levelUpText.setVisible(true);
+    }
+
+    // show game over results
     showResults() {
+        this.levelUpText.setVisible(false);
         const titleConfig = {
             fontSize: '128px',
             stroke: '#000',

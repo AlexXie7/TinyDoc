@@ -293,8 +293,10 @@ class Play extends Phaser.Scene {
 
     // add damage
     addDamage(amount) {
-        this.damage += amount;
-        this.uiScene.setHealth(1 - (this.damage / 100));
+        this.damage = Math.max(this.damage + amount, 0);
+        const percent = 1 - (this.damage / 100);
+        this.uiScene.setHealth(percent);
+        this.backgroundScene.setTintFromHealth(percent);
         this.sound.play('damaged');
     }
 
@@ -308,7 +310,7 @@ class Play extends Phaser.Scene {
         const collectable = new Collectable(this, this.player.body.position.x + config.scale.width, collectableHeight, collectableBounceSize, collectableBounceSpeed);
         collectable.onCollectCallback = () => {
             this.addScore(100);
-            this.player.collectableCount += 1;
+            this.player.onCollect();
             this.collectableCount += 1;
         }
         return collectable;
