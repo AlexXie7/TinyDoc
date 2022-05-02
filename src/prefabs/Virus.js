@@ -15,10 +15,10 @@ class Virus extends Enemy {
 
 
     destroy(){
-        if(this.scale > 0.5 && !this.isDestroyed){
-            var newScale = this.scale/2;
-            if (newScale < 0.5){
-                newScale = 0.5;
+        if(this.scale > 0.1 && !this.isDestroyed && !this.isCured){
+            var newScale = this.scale/3;
+            if (newScale < 0.1){
+                newScale = 0.1;
             }
             this.scene.enemies.push(new Virus(this.scene, this.x, this.y, 'EnemyGreen', 0, 30, newScale));
             this.isDestroyed = true;
