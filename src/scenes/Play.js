@@ -39,6 +39,8 @@ class Play extends Phaser.Scene {
         this.load.audio('collectable', './assets/fat collecting.wav');
         this.load.audio('enemyKilled', './assets/Enemy killed.wav');
         this.load.audio('damaged', './assets/score loss health.wav');
+
+        this.load.audio('bgm', './assets/bgm.wav');
     }
 
     create() {
@@ -85,6 +87,8 @@ class Play extends Phaser.Scene {
         this.damage = 0;
 
         this.gameOver = false;
+
+        this.sound.play('bgm', {loop:true, volume:.5});
     }   
 
 
