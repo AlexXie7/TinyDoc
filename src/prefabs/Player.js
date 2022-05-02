@@ -18,7 +18,7 @@ class Player {
         this.jumpKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // medicine cooldown
-        this.cooldownTime = 100;
+        this.cooldownTime = 800;
         this.cooldownTimer = 0;
 
         // equipped medicine

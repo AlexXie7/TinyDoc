@@ -346,9 +346,9 @@ class Play extends Phaser.Scene {
         let enemyType = Math.random();
         let numParas = 5; //index starts at zero
 
-        if(enemyType <= 0){
+        if(enemyType <= .33){
             this.enemies.push(new Bacteria(this, this.player.body.position.x + config.scale.width, gameCenterY, 'EnemyOrange', 0, 30));
-        } else if(enemyType <= 0) {
+        } else if(enemyType <= .66) {
             this.enemies.push(new Virus(this, this.player.body.position.x + config.scale.width, gameCenterY, 'EnemyGreen', 0, 30));
         } else {
             console.log("Spawning paras")
