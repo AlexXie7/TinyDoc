@@ -33,12 +33,16 @@ class Play extends Phaser.Scene {
 
 
         // load sounds
-        this.load.audio('playerRun', './assets/foot steps.wav');
+        this.load.audio('playerRun', './assets/foot-steps.wav');
+        this.load.audio('playerJump', './assets/jump.wav');
         this.load.audio('playerShoot', './assets/squirting.wav');
         this.load.audio('playerSwitchMedicine', './assets/switch medicine.wav');
         this.load.audio('collectable', './assets/fat collecting.wav');
         this.load.audio('enemyKilled', './assets/Enemy killed.wav');
         this.load.audio('damaged', './assets/score loss health.wav');
+        this.load.audio('levelUp', './assets/level-up.wav');
+
+        this.load.audio('bgm', './assets/bgm.wav');
     }
 
     create() {
@@ -85,6 +89,8 @@ class Play extends Phaser.Scene {
         this.damage = 0;
 
         this.gameOver = false;
+
+        this.sound.play('bgm', {loop:true, volume:.5});
     }   
 
 

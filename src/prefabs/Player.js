@@ -33,7 +33,7 @@ class Player {
         this.projectileCount = 1;
 
         // this.scene.sound.play('playerRun', {volume: .5, loop: true});
-        this.runSound = this.scene.sound.add('playerRun', {volume: .5, loop: true})
+        this.runSound = this.scene.sound.add('playerRun', {volume: .4, loop: true});
         this.runSound.play();
     }
 
@@ -66,6 +66,7 @@ class Player {
                 this.scene.matter.body.setVelocity(this.body, {x: this.body.velocity.x, y: 0});
                 this.scene.matter.body.applyForce(this.body, this.body.position, {x: .005, y: -this.jumpForce});
                 this.touchingGround = false;
+                this.scene.sound.play('playerJump');
             }
         }
 
@@ -167,6 +168,7 @@ class Player {
 
     // upgrades player properties on level up
     levelUp() {
+        this.scene.sound.play('levelUp');
         this.level += 1;
         if (this.level < 5) {
             this.cooldownTime -= 50;
