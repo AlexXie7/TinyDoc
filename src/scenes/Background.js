@@ -41,8 +41,9 @@ class Background extends Phaser.Scene {
         this.bloodVelocityScale = 1;
         this.targetBloodVelocityScale = 1;
 
-        this.targetTintColor = new Phaser.Display.Color(255, 255, 255);
         this.tintColor = new Phaser.Display.Color(255, 255, 255);
+        this.targetRG = 255;
+        this.colorRG = 255;
         
         this.setTintFromHealth(1);
     }
@@ -50,9 +51,10 @@ class Background extends Phaser.Scene {
     update(time, delta) {
 
         // ease in the tint color to the target color
-        this.tintColor.red -= (this.tintColor.red - this.targetTintColor.red) * .01;
-        this.tintColor.green -= (this.tintColor.green - this.targetTintColor.green) * .01;
-        this.tintColor.blue -= (this.tintColor.blue - this.targetTintColor.blue) * .01;
+        this.colorRG -= (this.colorRG - this.targetRG) * .01;
+        this.tintColor.red = this.colorRG;
+        this.tintColor.green = this.colorRG;
+        
 
         // set the background's tint
         this.background.tint = this.tintColor.color;
@@ -76,13 +78,9 @@ class Background extends Phaser.Scene {
         }
     }
 
-    setTintColor(hex) {
-        this.targetTintColor = Phaser.Display.Color.HexStringToColor(hex);
-    }
-
     // health from 1 to 0 
     setTintFromHealth(health) {
-        this.targetTintColor.setTo(health * 255, health * 255, 255);
+        this.targetRG = health * 255;
     }
 
     setBloodVelocityScale(v) {
