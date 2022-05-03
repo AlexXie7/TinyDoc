@@ -5,7 +5,10 @@ class Play extends Phaser.Scene {
 
     preload() {
 
-        this.load.image('player', './assets/player.png');
+        this.load.spritesheet('player', './assets/player.png', {
+            frameWidth: 128, frameHeight: 128,
+            startFrame: 0, endFrame: 1
+        });
         this.load.spritesheet('syringe', './assets/syringe.png', {
             frameWidth: 128,
             frameHeight: 64
@@ -62,6 +65,14 @@ class Play extends Phaser.Scene {
         this.collectables = [];
         this.enemies = [];
 
+        // player animation
+        this.anims.create({
+            key: 'playerRunAnimation',
+            frames: this.anims.generateFrameNumbers('player', {start: 0, end: 1, first: 0}),
+            frameRate: 5,
+            repeat: -1
+        });
+
         // create player
         this.player = new Player(this);
 
@@ -94,8 +105,11 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'EnemyGreenAnimation',
             frames: this.anims.generateFrameNumbers('EnemyGreen', { start: 0, end: 5, first: 0}),
-            frameRate: 3
+            frameRate: 3,
+            repeat: -1
         });
+
+        
 
         this.sound.play('bgm', {loop:true, volume:.5});
 
