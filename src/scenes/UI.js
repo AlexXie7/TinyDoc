@@ -75,6 +75,8 @@ class UI extends Phaser.Scene {
         }
 
         if (this.playScene.gameOver && Phaser.Input.Keyboard.JustDown(this.menuKey)) {
+            this.scene.stop('playScene');
+            this.scene.stop('backgroundScene');
             this.scene.start('menuScene');
         }
     }
