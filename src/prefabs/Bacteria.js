@@ -14,12 +14,6 @@ class Bacteria extends Enemy {
 
     update(time, delta) {
         this.x -= this.moveSpeed;
-        
-        this.scene.matter.body.setPosition(this.body, {x: this.x, y:this.y});
-
-        if(this.x <= this.scene.player.sprite.x - this.width) {
-            console.log('destroying sprite');
-            this.destroy();
-        }
+        super.update(time, delta)
     }
 }

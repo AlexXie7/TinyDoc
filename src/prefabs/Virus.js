@@ -4,7 +4,7 @@ class Virus extends Enemy {
         this.scale = scale;
         this.setScale(scale);
         this.scene.matter.world.remove(this.body);
-        this.body = scene.matter.add.circle(x, y, scale * 150, {ignoreGravity : true});
+        this.body = scene.matter.add.circle(x, y, scale * 75, {ignoreGravity : true});
         this.body.onCollideCallback = (e) => {
             // console.log(e);
             if(e.bodyB.isProjectile && e.bodyB.medicine == 2 && this.isCured == false)
