@@ -49,7 +49,8 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        this.matter.set30Hz();
+        // this.matter.set30Hz();
+        this.matter.pause();
 
         // launch background and ui scene
         this.scene.launch('backgroundScene');
@@ -120,11 +121,13 @@ class Play extends Phaser.Scene {
 
 
     update(time, delta) {
-
+        
         if (this.gameOver) {
             // this.scene.pause();
             return;
         }
+
+        this.matter.world.step(Math.min(delta, 1000/60));
 
         // checks if the player is a distance from the origin, and shift the entire game back
         if (this.player.body.position.x > this.gameShiftDistance + 128) {
