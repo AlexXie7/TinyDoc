@@ -52,8 +52,8 @@ class Player {
 
         // move forward if touching the ground
         if (this.touchingGround) {
-            if (this.body.velocity.x < 8) {
-                this.scene.matter.body.applyForce(this.body, this.body.position, {x: .0035, y: 0});
+            if (this.body.velocity.x < .6 * delta) {
+                this.scene.matter.body.applyForce(this.body, this.body.position, {x: .0003 * delta, y: 0});
             }
             this.runSound.resume();
             this.sprite.anims.resume();
@@ -67,7 +67,7 @@ class Player {
         if (Phaser.Input.Keyboard.JustDown(this.jumpKey)) {
             if (this.touchingGround) {
                 this.scene.matter.body.setVelocity(this.body, {x: this.body.velocity.x, y: 0});
-                this.scene.matter.body.applyForce(this.body, this.body.position, {x: .005, y: -this.jumpForce});
+                this.scene.matter.body.applyForce(this.body, this.body.position, {x: .0007 * delta, y: -this.jumpForce});
                 this.touchingGround = false;
                 this.scene.sound.play('playerJump');
             }

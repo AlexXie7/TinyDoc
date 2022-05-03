@@ -53,7 +53,6 @@ class Projectile {
         //selfdeletes after 5 sec
         this.clock = this.scene.time.delayedCall(5000, () => { 
             if(!this.isDestroyed){
-                console.log(this); 
                 this.destroy(); 
             }
 
