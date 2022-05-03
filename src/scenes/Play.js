@@ -372,10 +372,14 @@ class Play extends Phaser.Scene {
 
     spawnEnemy(){
         let enemyType = Math.random();
-        let numParas = Math.floor((this.player.level + 5) / 2.5); //index starts at zero
-        let virSize = this.player.level / 5;
+        let numParas = Math.floor(this.gameTime/15000); //index starts at zero
+        let virSize = this.gameTime/15000 * .2;
 
-        if (virSize == 0){
+        if (numParas <= 3){
+            numParas = 3;
+        }
+
+        if (virSize <= .2){
             virSize = .2;
         }
 
