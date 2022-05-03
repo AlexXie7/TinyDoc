@@ -372,11 +372,11 @@ class Play extends Phaser.Scene {
             let paras = [];
             for(let i = 0; i < numParas; i++){
                 if(i == 0){
-                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i), gameCenterY, 'EnemyPurpleTail', 0, 30, i, prev);
+                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i) + 32*numParas, gameCenterY, 'EnemyPurpleTail', 0, 30, i, prev);
                 } else if(i == numParas - 1) {
-                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i), gameCenterY, 'EnemyPurpleHead', 0, 30, i, prev);
+                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i) + 32*numParas, gameCenterY, 'EnemyPurpleHead', 0, 30, i, prev);
                 } else {
-                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i), gameCenterY, 'EnemyPurpleBody', 0, 30, i, prev);
+                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i) + 32*numParas, gameCenterY, 'EnemyPurpleBody', 0, 30, i, prev);
                 }
                 paras.push(prev);
             }
