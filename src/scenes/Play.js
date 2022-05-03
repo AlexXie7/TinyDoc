@@ -44,6 +44,7 @@ class Play extends Phaser.Scene {
         this.load.audio('enemyKilled', './assets/Enemy killed.wav');
         this.load.audio('damaged', './assets/score loss health.wav');
         this.load.audio('levelUp', './assets/level-up.wav');
+        this.load.audio('gameOver', './assets/game-over.wav');
 
         this.load.audio('bgm', './assets/bgm.wav');
     }
@@ -259,7 +260,8 @@ class Play extends Phaser.Scene {
         if (this.damage >= 100) {
             this.gameOver = true;
             this.sound.stopAll();
-            
+            this.sound.play('gameOver');
+
             this.backgroundScene.scene.pause();
             this.uiScene.showResults();
         }
