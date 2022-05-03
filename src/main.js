@@ -22,7 +22,7 @@ const config = {
             enableSleeping: true,
             gravity: { y: 1 },
             debug: {
-                showBody: true,
+                showBody: false,
                 showStaticBody: false
             }
         }
