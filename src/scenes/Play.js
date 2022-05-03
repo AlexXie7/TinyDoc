@@ -187,7 +187,7 @@ class Play extends Phaser.Scene {
             this.spawnEnemy();
             
             this.enemyTimer -= this.nextEnemyTime;
-            this.nextEnemyTime = Math.random() * 2000 + 6250 - ((this.player.level+1) * -1000); // sets the delay for the next enemy to spawn
+            this.nextEnemyTime = Math.random() * 2000 + 6000 - ((this.player.level+1) * 500); // sets the delay for the next enemy to spawn
         }
         this.enemyTimer += delta;
 
