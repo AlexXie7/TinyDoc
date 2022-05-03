@@ -99,6 +99,7 @@ class Play extends Phaser.Scene {
         this.score = 0;
         this.damage = 0;
 
+        this.gameTime = 0;
         this.gameOver = false;
 
         // enemy animation
@@ -251,6 +252,7 @@ class Play extends Phaser.Scene {
             this.uiScene.showResults();
         }
 
+        this.gameTime += delta;
     }
 
     // shifts the entire game back, including platforms, players, enemies, items, etc
