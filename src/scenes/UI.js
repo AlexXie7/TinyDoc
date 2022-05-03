@@ -4,9 +4,6 @@ class UI extends Phaser.Scene {
     }
     
     preload() {
-        this.load.image('medicine1', './assets/medicine1.png');
-        this.load.image('medicine2', './assets/medicine2.png');
-        this.load.image('medicine3', './assets/medicine3.png');
         this.load.image('medicineSelect', './assets/medicine-select.png');
         this.load.image('healthContainer', './assets/health-container.png');
         this.load.image('healthBar', './assets/health-bar.png');

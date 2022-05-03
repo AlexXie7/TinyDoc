@@ -26,8 +26,8 @@ class Play extends Phaser.Scene {
             frameWidth: 240, frameHeight: 223,
             startFrame: 0, endFrame: 5
         });
-        this.load.image('EnemyOrange', './assets/EnemyOrange.png');
-        this.load.image('EnemyPurpleHead', './assets/EnemyPurpleHead.png');
+
+
         this.load.image('EnemyPurpleBody', './assets/EnemyPurpleBody.png');
         this.load.image('EnemyPurpleTail', './assets/EnemyPurpleTail.png');
 

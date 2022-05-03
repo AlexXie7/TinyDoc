@@ -8,6 +8,12 @@ class Menu extends Phaser.Scene {
             frameWidth: 230,
             frameHeight: 244
         });
+        this.load.image('EnemyOrange', './assets/EnemyOrange.png');
+        this.load.image('EnemyPurpleHead', './assets/EnemyPurpleHead.png');
+
+        this.load.image('medicine1', './assets/medicine1.png');
+        this.load.image('medicine2', './assets/medicine2.png');
+        this.load.image('medicine3', './assets/medicine3.png');
     }
 
     create(){
@@ -55,6 +61,16 @@ class Menu extends Phaser.Scene {
         let wiggle2 = this.add.sprite(game.config.width/4*3, game.config.height/2, 'MenuVirus');
         wiggle2.anims.play('menuWiggle');
 
+        //Medicine Legend
+        let legend = this.add.text(game.config.width/9, game.config.height/8*7, 'Use these medicines to cure these enemies', menuConfig);
+        let legendOrangeEnemy = this.add.sprite(legend.x + legend.width, legend.y + legend.height, 'EnemyOrange').setScale(0.3).setOrigin(0);
+        this.add.sprite(legendOrangeEnemy.x, legendOrangeEnemy.y, 'medicine1').setOrigin(0, 1);
+
+        let legendPurpleEnemy = this.add.sprite(legendOrangeEnemy.x + legendOrangeEnemy.width*0.3, legend.y + legend.height, 'EnemyPurpleHead').setScale(0.2).setOrigin(0);
+        this.add.sprite(legendPurpleEnemy.x, legendPurpleEnemy.y, 'medicine2').setOrigin(0, 1);
+
+        let legendGreenEnemy = this.add.sprite(legendPurpleEnemy.x + legendPurpleEnemy.width*0.25, legend.y + legend.height, 'MenuVirus').setScale(0.3).setOrigin(0);
+        this.add.sprite(legendGreenEnemy.x, legendGreenEnemy.y, 'medicine3').setOrigin(0, 1);
         // start key, change to what u would like
         this.startKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
