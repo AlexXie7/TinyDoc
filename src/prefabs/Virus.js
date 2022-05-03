@@ -15,7 +15,7 @@ class Virus extends Enemy {
 
 
     destroy(){
-        if(this.scale > 0.3 && !this.isDestroyed){
+        if(this.scale > 0.5 && !this.isDestroyed){
             var newScale = this.scale/3;
             if (newScale < 0.3){
                 newScale = 0.3;
