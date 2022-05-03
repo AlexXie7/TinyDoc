@@ -29,8 +29,8 @@ class Play extends Phaser.Scene {
             frameWidth: 240, frameHeight: 223,
             startFrame: 0, endFrame: 5
         });
-        this.load.image('EnemyOrange', './assets/EnemyOrange.png');
-        this.load.image('EnemyPurpleHead', './assets/EnemyPurpleHead.png');
+
+
         this.load.image('EnemyPurpleBody', './assets/EnemyPurpleBody.png');
         this.load.image('EnemyPurpleTail', './assets/EnemyPurpleTail.png');
 
@@ -385,11 +385,11 @@ class Play extends Phaser.Scene {
             let paras = [];
             for(let i = 0; i < numParas; i++){
                 if(i == 0){
-                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i), gameCenterY, 'EnemyPurpleTail', 0, 30, i, prev);
+                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i) + 32*numParas, gameCenterY, 'EnemyPurpleTail', 0, 30, i, prev);
                 } else if(i == numParas - 1) {
-                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i), gameCenterY, 'EnemyPurpleHead', 0, 30, i, prev);
+                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i) + 32*numParas, gameCenterY, 'EnemyPurpleHead', 0, 30, i, prev);
                 } else {
-                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i), gameCenterY, 'EnemyPurpleBody', 0, 30, i, prev);
+                    prev = new Parasite(this, this.player.body.position.x + config.scale.width - (32*i) + 32*numParas, gameCenterY, 'EnemyPurpleBody', 0, 30, i, prev);
                 }
                 paras.push(prev);
             }
