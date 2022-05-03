@@ -49,6 +49,8 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        this.matter.set30Hz();
+
         // launch background and ui scene
         this.scene.launch('backgroundScene');
         this.backgroundScene = this.scene.get('backgroundScene');
