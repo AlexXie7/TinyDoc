@@ -117,6 +117,8 @@ class Play extends Phaser.Scene {
 
         this.sound.play('bgm', {loop:true, volume:.5});
 
+        this.targetDelta = 1000/60;
+        this.physicsTimer = 0;
     }   
 
 
@@ -127,7 +129,12 @@ class Play extends Phaser.Scene {
             return;
         }
 
-        this.matter.world.step(Math.min(delta, 1000/60));
+
+        if (this.physicsTimer >= this.targetDelta) {
+            this.matter.world.step(this.targetDelta);
+            this.physicsTimer -= this.targetDelta
+        }
+        this.physicsTimer += delta;
 
         // checks if the player is a distance from the origin, and shift the entire game back
         if (this.player.body.position.x > this.gameShiftDistance + 128) {

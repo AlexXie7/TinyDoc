@@ -13,7 +13,7 @@ class Bacteria extends Enemy {
     }
 
     update(time, delta) {
-        this.x -= this.moveSpeed;
+        this.x -= this.moveSpeed * delta * .1;
         super.update(time, delta)
     }
 }
