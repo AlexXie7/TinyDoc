@@ -372,8 +372,16 @@ class Play extends Phaser.Scene {
 
     spawnEnemy(){
         let enemyType = Math.random();
-        let numParas = this.player.level + 3; //index starts at zero
-        let virSize = this.player.level / 10;
+        let numParas = Math.floor((this.player.level + 6) / 3); //index starts at zero
+        let virSize = this.player.level / 5;
+
+        if (virSize == 0){
+            virSize = .2;
+        }
+
+        if (virSize > 2){
+            virSize = 2;
+        }
 
         if(enemyType <= .33){
             this.enemies.push(new Bacteria(this, this.player.body.position.x + config.scale.width, gameCenterY, 'EnemyOrange', 0, 30));
