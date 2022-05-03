@@ -4,7 +4,10 @@ class Menu extends Phaser.Scene {
     }
 
     preload(){
-
+        this.load.spritesheet('MenuVirus', './assets/ThreeVirusMenu.png', {
+            frameWidth: 230,
+            frameHeight: 244
+        });
     }
 
     create(){
@@ -21,6 +24,13 @@ class Menu extends Phaser.Scene {
             },
             fixedWidth: 0
         }
+
+        this.anims.create({
+            key: 'menuWiggle',
+            frames: this.anims.generateFrameNumbers('MenuVirus', {start: 0, end: 5, first: 0}),
+            frameRate: 6,
+            repeat: -1
+        });
         
         // show menu text
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding*4,
@@ -39,6 +49,9 @@ class Menu extends Phaser.Scene {
 
         this.add.text(game.config.width/2, game.config.height/2 + borderPadding*8,
         'Press Space to Start', menuConfig).setOrigin(0.5);
+
+        let wiggle1 = this.add.sprite(game.config.width/2 - borderPadding * 24, game.config.height/2, 'MenuVirus');
+        wiggle1.anims.play('menuWiggle');
 
         // start key, change to what u would like
         this.startKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);

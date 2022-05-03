@@ -94,7 +94,8 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'EnemyGreenAnimation',
             frames: this.anims.generateFrameNumbers('EnemyGreen', { start: 0, end: 5, first: 0}),
-            frameRate: 3
+            frameRate: 3,
+            repeat: -1
         });
 
         this.sound.play('bgm', {loop:true, volume:.5});
