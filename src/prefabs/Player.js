@@ -174,19 +174,19 @@ class Player {
         this.scene.sound.play('levelUp');
         this.level += 1;
         if (this.level < 5) {
-            this.cooldownTime -= 50;
+            this.cooldownTime -= 20;
             this.jumpForce += .001;
             this.projectileForce += .001;
         } else if (this.level < 6) {
             this.projectileCount = 2;
         } else if (this.level < 10) {
-            this.cooldownTime -= 20;
+            this.cooldownTime -= 10;
             this.jumpForce += .001;
             this.projectileForce += .001;
         } else if (this.level < 11) {
             this.projectileCount = 3;
         } else {
-            this.cooldownTime = Math.max(this.cooldownTime - 10, 100);
+            this.cooldownTime = Math.max(this.cooldownTime - 5, 100);
             this.projectileForce += .001;
             this.jumpForce += .001;
         }
