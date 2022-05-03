@@ -53,7 +53,10 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width/2, game.config.height/2 + borderPadding*4,
         '[Space] to Jump', menuConfig).setOrigin(0.5);
 
-        this.add.text(game.config.width/2, game.config.height/2 + borderPadding*8,
+        this.add.text(game.config.width/2, game.config.height/2 + borderPadding*6,
+        'Collect Sugar to Level Up!', menuConfig).setOrigin(0.5);
+
+        this.add.text(game.config.width/2, game.config.height/2 + borderPadding*10,
         'Press Space to Start', menuConfig).setOrigin(0.5);
 
         let wiggle1 = this.add.sprite(game.config.width/4, game.config.height/2, 'MenuVirus');
