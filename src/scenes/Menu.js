@@ -21,8 +21,8 @@ class Menu extends Phaser.Scene {
         let menuConfig = {
             fontFamily: 'Courier',
             fontSize: '64px',
-            backgroundColor: '#F3B141',
-            color: '#CC2006',
+            //backgroundColor: '#F3B141',
+            color: '#FFFFFF',
             align: 'right',
             padding: {
                 top: 5,
@@ -53,7 +53,10 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width/2, game.config.height/2 + borderPadding*4,
         '[Space] to Jump', menuConfig).setOrigin(0.5);
 
-        this.add.text(game.config.width/2, game.config.height/2 + borderPadding*8,
+        this.add.text(game.config.width/2, game.config.height/2 + borderPadding*6,
+        'Collect Sugar to Level Up!', menuConfig).setOrigin(0.5);
+
+        this.add.text(game.config.width/2, game.config.height/2 + borderPadding*10,
         'Press Space to Start', menuConfig).setOrigin(0.5);
 
         let wiggle1 = this.add.sprite(game.config.width/4, game.config.height/2, 'MenuVirus');
@@ -62,7 +65,7 @@ class Menu extends Phaser.Scene {
         wiggle2.anims.play('menuWiggle');
 
         //Medicine Legend
-        let legend = this.add.text(game.config.width/9, game.config.height/8*7, 'Use these medicines to cure these enemies', menuConfig);
+        let legend = this.add.text(game.config.width/10, game.config.height/8*7, 'Use these medicines to cure these enemies:', menuConfig);
         let legendOrangeEnemy = this.add.sprite(legend.x + legend.width, legend.y + legend.height, 'EnemyOrange').setScale(0.3).setOrigin(0);
         this.add.sprite(legendOrangeEnemy.x, legendOrangeEnemy.y, 'medicine1').setOrigin(0, 1);
 
