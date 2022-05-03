@@ -32,13 +32,13 @@ class Player {
         this.projectileForce = .08;
         this.projectileCount = 1;
 
-        // this.scene.sound.play('playerRun', {volume: .5, loop: true});
         this.runSound = this.scene.sound.add('playerRun', {volume: .4, loop: true});
         this.runSound.play();
+
+        this.sprite.anims.play('playerRunAnimation');
     }
 
     update(time, delta) {
-        
         // gets mouse pointer
         const pointer = game.input.activePointer;
 
@@ -56,8 +56,11 @@ class Player {
                 this.scene.matter.body.applyForce(this.body, this.body.position, {x: .0035, y: 0});
             }
             this.runSound.resume();
+            this.sprite.anims.resume();
         } else {
             this.runSound.pause();
+            this.sprite.anims.pause();
+            this.sprite.setFrame(0);
         }
 
         // jump if touching the ground
