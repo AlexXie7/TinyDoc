@@ -94,7 +94,8 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'EnemyGreenAnimation',
             frames: this.anims.generateFrameNumbers('EnemyGreen', { start: 0, end: 5, first: 0}),
-            frameRate: 3
+            frameRate: 3,
+            repeat: -1
         });
 
         this.sound.play('bgm', {loop:true, volume:.5});
@@ -173,7 +174,7 @@ class Play extends Phaser.Scene {
             this.spawnEnemy();
             
             this.enemyTimer -= this.nextEnemyTime;
-            this.nextEnemyTime = Math.random() * 2000 + 6250 - ((this.player.level+1) * - 250); // sets the delay for the next enemy to spawn
+            this.nextEnemyTime = Math.random() * 2000 + 6250 - ((this.player.level+1) * -1000); // sets the delay for the next enemy to spawn
         }
         this.enemyTimer += delta;
 
