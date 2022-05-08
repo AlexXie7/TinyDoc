@@ -7,7 +7,7 @@ class Play extends Phaser.Scene {
 
         this.load.spritesheet('player', './assets/player.png', {
             frameWidth: 128, frameHeight: 128,
-            startFrame: 0, endFrame: 1
+            startFrame: 0, endFrame: 7
         });
         this.load.spritesheet('syringe', './assets/syringe.png', {
             frameWidth: 128,
@@ -72,8 +72,8 @@ class Play extends Phaser.Scene {
         // player animation
         this.anims.create({
             key: 'playerRunAnimation',
-            frames: this.anims.generateFrameNumbers('player', {start: 0, end: 1, first: 0}),
-            frameRate: 5,
+            frames: this.anims.generateFrameNumbers('player', {start: 0, end: 7, first: 0}),
+            frameRate: 15,
             repeat: -1
         });
 
